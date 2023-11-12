@@ -5,6 +5,14 @@ const sequelize = new Sequelize(db.database, db.username, db.password, {
     host: db.host,
     port: db.port,
     dialect: db.dialect,
+    dialectOptions: {
+        charset: "utf8mb4",
+        collate: "utf8mb4_unicode_ci",
+    },
+    define: {
+        charset: "utf8mb4",
+        collate: "utf8mb4_unicode_ci",
+    },
 });
 
 const initDB = async () => {

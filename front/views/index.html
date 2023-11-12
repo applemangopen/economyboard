@@ -11,9 +11,16 @@
             <p>안녕하세요, {{ user.nickname }}님!</p>
             <p>사용자 ID: {{ user.userId }}</p>
             {% else %}
+
+            <div id="user-info"></div>
             <a href="/auth/login">로그인</a>
+            <a href="http://localhost:4000/auth/kakao">카카오로그인</a>
+            <a href="http://localhost:4000/auth/google">구글로그인</a>
             <a href="/auth/signup">회원가입</a>
+            <a href="" id="user-modify-link">유저 정보 수정</a>
+            <button id="logout-button">로그아웃</button>
             {% endif %}
+            <script src="/js/main.js"></script>
         </div>
     </body>
 </html>

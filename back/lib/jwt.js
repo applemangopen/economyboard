@@ -7,7 +7,7 @@ function generateToken(user) {
     const payload = {
         id: user.id,
         username: user.username,
-        nickname: user.nickname,
+        nickname: encodeURIComponent(user.nickname),
         image: user.image,
     };
 

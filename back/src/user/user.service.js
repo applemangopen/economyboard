@@ -8,7 +8,7 @@ class UserService {
     async createUser(userData) {
         try {
             console.log("service:", userData);
-            // 비밀번호 해시화 (일단은 생략 해놓음 추후에 해시화 할꺼얌)
+
             const userDTO = new UserCreateRequestDTO(userData);
 
             const hashedPassword = await bcrypt.hash(userDTO.password, 8);
@@ -51,6 +51,67 @@ class UserService {
             return { token };
         } catch (e) {
             throw e.message;
+        }
+    }
+
+    async findOrCreateUser(socialData) {
+        try {
+            const { username, nickname, image, provider } = socialData;
+
+            const userDTO = new UserCreateRequestDTO({
+                username,
+                nickname,
+                image,
+                provider,
+            });
+
+            let user = await User.findOne({ where: { username: userDTO.username } });
+
+            if (!user) {
+                const newUser = {
+                    username: userDTO.username,
+                    nickname: userDTO.nickname,
+                    image: userDTO.image,
+                    provider: userDTO.provider,
+                };
+                if (provider !== "kakao" && provider !== "google") {
+                    newUser.password = await bcrypt.hash(userDTO.password, 8);
+                } else {
+                    newUser.password = null;
+                }
+                user = await User.create(newUser);
+            }
+
+            return new UserCreateResponseDTO(user);
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async updateUser(userId, updateData) {
+        try {
+            const user = await User.findByPk(userId);
+            if (!user) {
+                throw new Error("사용자를 찾을 수 없습니다.");
+            }
+
+            // 업데이트할 데이터 처리
+            Object.entries(updateData).forEach(([key, value]) => {
+                if (value !== undefined && value !== null) {
+                    user[key] = value;
+                }
+            });
+
+            // 비밀번호 변경 시, 비밀번호 해시화
+            if (updateData.password) {
+                user.password = await bcrypt.hash(updateData.password, 8);
+            }
+
+            await user.save();
+
+            return user; // 업데이트된 사용자 정보 반환
+        } catch (error) {
+            throw error;
         }
     }
 }
