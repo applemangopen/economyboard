@@ -98,9 +98,26 @@ exports.updateUserInfo = async (req, res) => {
 
         const updatedUser = await userService.updateUser(userId, updateData);
 
-        res.json({ message: "사용자 정보가 업데이트 되었습니다.", user: updatedUser });
+        const newToken = generateToken({
+            id: updatedUser.id,
+            nickname: updatedUser.nickname,
+            image: updatedUser.image,
+        });
+
+        res.json({ message: "사용자 정보가 업데이트 되었습니다.", user: updatedUser, token: newToken });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: error.message });
+    }
+};
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        await userService.deleteUser(userId);
+        res.json({ message: "사용자 계정이 삭제되었습니다" });
+    } catch (error) {
+        console.error(error);
+        res.status(550).json({ error: error.message });
     }
 };

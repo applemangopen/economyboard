@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const response = await axios.put(
-                `http://localhost:4000/user/${userId}`,
+                `http://localhost:4000/auth/user/${userId}`,
                 {
                     nickname,
                     image,
@@ -48,10 +48,11 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
             if (response.status === 200) {
+                document.cookie = `token=${response.data.token};path=/;max-age=3600`;
                 alert("사용자 정보가 업데이트되었습니다.");
                 window.location.href = "http://localhost:3000"; // 메인 페이지로 리디렉션
             } else {
-                alert("업데이트 중 오류가 발생했습니다.");
+                alert("몬가 문제가 있당");
             }
         } catch (error) {
             console.error("업데이트 실패:", error);
@@ -82,3 +83,37 @@ function decodeToken(token) {
     payload.nickname = decodeURIComponent(payload.nickname);
     return payload;
 }
+
+document.getElementById("deleteUserButton").addEventListener("click", async () => {
+    const token = getCookie("token");
+    let userInfo = null;
+    if (token) {
+        userInfo = decodeToken(token);
+    }
+    if (!confirm("정말로 회원 탈퇴를 하시겠습니까?")) return;
+
+    try {
+        const userId = userInfo ? userInfo.id : null;
+        if (!userId) {
+            alert("사용자 정보를 찾을 수 없습니다.");
+            return;
+        }
+
+        const response = await axios.delete(`http://localhost:4000/auth/user/${userId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (response.status === 200) {
+            alert("회원 탈퇴가 완료되었습니다.");
+            document.cookie = "token=;path=/;max-age=0";
+            window.location.href = "/";
+        } else {
+            alert("오류가 발생했습니다.");
+        }
+    } catch (error) {
+        console.error("회원 탈퇴 실패:", error);
+        alert("오류가 발생했습니다.");
+    }
+});

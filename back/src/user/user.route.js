@@ -9,7 +9,7 @@ const UserService = require("./user.service");
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, done) => {
-            done(null, "./uploads");
+            done(null, "./uploads/users");
         },
         filename: (req, file, done) => {
             const ext = path.extname(file.originalname);
@@ -41,5 +41,7 @@ router.get(
     userController.loginWithGoogle
 );
 router.put("/user/:userId", passport.authenticate("jwt", { session: false }), userController.updateUserInfo);
+
+router.delete("/user/:userId", passport.authenticate("jwt", { session: false }), userController.deleteUser);
 
 module.exports = router;

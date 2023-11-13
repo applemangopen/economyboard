@@ -114,6 +114,17 @@ class UserService {
             throw error;
         }
     }
+    async deleteUser(userId) {
+        try {
+            const user = await User.findByPk(userId);
+            if (!user) {
+                throw new Error("유저를 찾을 수 없음");
+            }
+            await user.destroy();
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = UserService;
