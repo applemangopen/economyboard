@@ -16,6 +16,6 @@ app.use(express.static("public"));
 
 app.use(router);
 
-app.listen(8000, () => {
+app.listen(8080, () => {
   console.log("Front server Start");
 });

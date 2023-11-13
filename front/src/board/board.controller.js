@@ -1,7 +1,5 @@
 const boardService = require("./board.service");
-// test
-// console.log("board_controller.js test");
-// test
+
 exports.getBoardPageData = async (req, res) => {
   try {
     res.render("board/view.html");
@@ -14,8 +12,9 @@ exports.getBoardPageData = async (req, res) => {
 };
 exports.getAnnouncementPageData = async (req, res) => {
   try {
-    // console.log("board_controller.js test");
-    res.render("board/list.html", {});
+    let processedData = {};
+    processedData.category = "Announcement";
+    res.render("board/list.html", processedData);
   } catch (error) {
     console.log(
       "BoardController getAnnouncementPageData Error : " + error.message
@@ -27,6 +26,7 @@ exports.getAnnouncementPageData = async (req, res) => {
 };
 exports.getDomesticPageData = async (req, res) => {
   try {
+    res.render("board/list.html", {});
   } catch (error) {
     console.log("BoardController getDomesticPageData Error : " + error.message);
     throw new Error(
@@ -36,6 +36,7 @@ exports.getDomesticPageData = async (req, res) => {
 };
 exports.getForeignPageData = async (req, res) => {
   try {
+    res.render("board/list.html", {});
   } catch (error) {
     console.log("BoardController getForeignPageData Error : " + error.message);
     throw new Error(
@@ -45,6 +46,7 @@ exports.getForeignPageData = async (req, res) => {
 };
 exports.getBitcoinPageData = async (req, res) => {
   try {
+    res.render("board/list.html", {});
   } catch (error) {
     console.log("BoardController getBitcoinPageData Error : " + error.message);
     throw new Error(
