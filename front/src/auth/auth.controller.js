@@ -4,7 +4,7 @@ const axios = require("axios");
 // ===== Login =====
 exports.getLogin = async (req, res) => {
   try {
-    res.render("login.html", {});
+    res.render("auth/login.html", {});
   } catch (error) {
     console.log("AuthController getLogin Error : " + error.message);
     throw new Error("AuthController getLogin Error : " + error.message);
@@ -13,20 +13,27 @@ exports.getLogin = async (req, res) => {
 exports.postLogin = async (req, res) => {
   try {
     console.log("postLogin req.body : ", req.body);
-
-    const { username: email, password: passowrd } = req.body;
+    const loginInfo = req.body;
 
     // axios를 사용하여 외부 서버로 POST 요청
-    const response = await axios.post("http://43.201.38.233:4000/auth/login", {
-      username,
-      password,
-    });
+    const response = await axios.post(
+      "http://15.164.233.146:4000/auth/login",
+      loginInfo
+    );
+    const token = response.data;
+    console.log("AuthController postLogin token : ", token);
 
-    // 결과를 저장하고 필요한 작업 수행
-    console.log("응답 받음:", response.data);
+    // ===== token 제대로 받아왔으면, 쿠키로 전송
+    if (token) {
+      res.cookie("token", token, {
+        maxAge: 60 * 60 * 1000,
+        httpOnly: true,
+      });
+      res.json({ success: true, redirectUrl: "/" });
+    }
   } catch (error) {
     console.log("AuthController postLogin Error : " + error.message);
-    throw new Error("AuthController postLogin Error : " + error.message);
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 

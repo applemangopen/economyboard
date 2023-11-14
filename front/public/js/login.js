@@ -72,8 +72,14 @@ document
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
-      const response = await axios.post("/auth/login", { email, password });
-      console.log("login js : ", response);
+      const response = await axios.post("/auth/login", {
+        username: email,
+        password: password,
+      });
+      if (response.data.success) {
+        window.location.href = response.data.redirectUrl;
+      }
+      // console.log("login js : ", response);
     } catch (error) {
       console.error("로그인 실패:", error);
     }

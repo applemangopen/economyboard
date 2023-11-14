@@ -78,11 +78,29 @@
           <div class="header__user__notification">
             <i class="fa-solid fa-bell"></i>
           </div>
-          <a href="/users"
-            ><div class="header__user__profile">
-              <img src="/images/BullProfileImage_Circle.png" alt="" /></div
-          ></a>
-          <a href="/auth/login">Login</a>
+          {% if userData.id %}
+          <!-- 로그인 상태일 때 -->
+          <a href="/users" class="header__user__name"
+            >{{ userData.nickname }}</a
+          >
+          <div class="header__user__profile">
+            <img
+              src="{{ userData.image }}"
+              alt="profile image"
+              class="header__user__profileimage"
+            />
+          </div>
+          {% else %}
+          <!-- 로그인 상태가 아닐 때 -->
+          <a href="/auth/login" class="header__user__name">Login</a>
+          <div class="header__user__profile">
+            <img
+              src="/images/default_profile.png"
+              alt="default image"
+              class="header__user__profileimage"
+            />
+          </div>
+          {% endif %}
         </div>
       </header>
       <!-- Content -->
