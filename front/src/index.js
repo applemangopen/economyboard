@@ -3,11 +3,13 @@ const router = express.Router();
 const boardRouter = require("./board/board.route.js");
 const userRouter = require("./user/user.route.js");
 const indexRouter = require("./index/index.route.js");
+const authRouter = require("./auth/auth.route.js");
 const axios = require("axios");
 
 router.use("/", indexRouter);
 router.use("/users", userRouter);
 router.use("/boards", boardRouter);
+router.use("/auth", authRouter);
 // router.get으로 쓸 때와, router.use를 쓸 때가 다르다
 // 이걸로 엄청난 시간을 고민을 하게 됐다. 주의!!!
 

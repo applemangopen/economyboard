@@ -2,7 +2,7 @@ const axios = require("axios");
 
 exports.fetchIndexContentData = async (req, res) => {
   try {
-    const response = await axios.get("http://43.201.38.233:4000/");
+    const response = await axios.get("http://15.164.233.146:4000/");
     const { data } = response.data;
 
     // ===== response된 data를 처리 =====

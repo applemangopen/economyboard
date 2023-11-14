@@ -3,7 +3,7 @@ const indexService = require("./index.service.js");
 exports.getIndexPageData = async (req, res) => {
   try {
     const processedData = await indexService.fetchIndexContentData();
-    console.log(processedData);
+    // console.log(processedData);
     res.render("index.html", processedData);
   } catch (error) {
     console.log("IndexController getIndexPageData Error : " + error.message);

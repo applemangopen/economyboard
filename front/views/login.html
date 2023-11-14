@@ -1,20 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <script src="/js/login.js"></script>
-    </head>
-    <body>
-        <h2>로그인</h2>
-        <form id="loginForm">
-            <label for="username">아이디:</label>
-            <input type="text" id="username" required />
-            <label for="password">비밀번호:</label>
-            <input type="password" id="password" required />
-            <button type="submit">로그인</button>
-        </form>
-        <a href=""></a>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | BullHub</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      href="/images/BullHubLogo_Circle_favicon.ico"
+      type="image/x-icon"
+    />
+    <!-- FontAwesome Kits -->
+    <script
+      src="https://kit.fontawesome.com/a6fe98d160.js"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <!-- CSS and Javascript -->
+    <link rel="stylesheet" href="/css/login.css" />
+    <script src="/js/login.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <main>
+      <!-- Header -->
+      <header class="header">
+        <div class="header__search">
+          <input
+            class="search-input"
+            type="text"
+            placeholder="종목명, 티커 검색"
+            autocomplete="off"
+            aria-autocomplete="list"
+            aria-controls="search-menu"
+            aria-labelledby="search-label"
+          />
+        </div>
+        <div class="header__user">
+          <div class="header__user__display">
+            <div id="stock-slider" class="stock-slider">
+              <div class="stock-item">
+                Apple $182.41 &nbsp; <span style="color: #37d767">3.21%</span>
+                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+              </div>
+              <div class="stock-item">
+                Walt Disney $90.34 &nbsp;
+                <span style="color: #fd2617">0.85%</span>
+                <i class="fa-solid fa-arrow-down" style="color: #fd2617"></i>
+              </div>
+              <div class="stock-item">
+                Intel $37.80 &nbsp; <span style="color: #37d767">1.19%</span>
+                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+              </div>
+              <div class="stock-item">
+                Microsoft $360.69 &nbsp;
+                <span style="color: #fd2617">0.32%</span>
+                <i class="fa-solid fa-arrow-down" style="color: #fd2617"></i>
+              </div>
+              <div class="stock-item">
+                Cisco $52.00 &nbsp; <span style="color: #fd2617">0.56%</span>
+                <i class="fa-solid fa-arrow-down" style="color: #fd2617"></i>
+              </div>
+              <div class="stock-item">
+                Verizon $35.62 &nbsp; <span style="color: #37d767">1.45%</span>
+                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+              </div>
+              <div class="stock-item">
+                Chevron $141.94 &nbsp; <span style="color: #37d767">2.17%</span>
+                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+              </div>
+            </div>
+          </div>
+          <div class="header__user__notification">
+            <i class="fa-solid fa-bell"></i>
+          </div>
+          <a href="/users"
+            ><div class="header__user__profile">
+              <img src="/images/BullProfileImage_Circle.png" alt="" /></div
+          ></a>
+        </div>
+      </header>
+      <!-- Content -->
+      <div class="content-wrapper content-wrapper--expanded">
+        <!-- ===== Login ===== -->
+        <div class="login">
+          <form class="login__form" id="login-form">
+            <div class="login__title">프로젝트 입장</div>
+            <div class="login__input-group">
+              <label for="email" class="login__label">이메일</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="login__input"
+                required
+              />
+            </div>
+            <div class="login__input-group">
+              <label for="password" class="login__label">비밀번호</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="login__input"
+                required
+              />
+            </div>
+            <button type="submit" class="login__button">로그인</button>
+          </form>
+          <a href="/auth/signup">
+            <button class="login__signup">
+              프로젝트 참여하기(회원가입)
+              <span class="login__signup__label">11기 모집 중</span>
+            </button>
+          </a>
+        </div>
+
+        <!-- Arrow up -->
+        <aside>
+          <a class="arrow-up arrow-up--visible" href="#" title="back to top">
+            <!-- 만약에 따로 svg에서 스크린 리더기에 정보를 줄 수 없다면,
+                 위와 같이 a tag 안에 attribute로 title을 준 후, 그 안에 정보를 써줄 수 있다. -->
+            <i class="fa-solid fa-arrow-up"></i>
+          </a>
+        </aside>
+        <!-- Footer -->
+        <footer class="footer">
+          <div class="footer-info">
+            <span class="footer-item">불빛 주식회사</span>
+            <span class="footer-item">대표이사: 강수빈</span>
+            <span class="footer-item">개인정보관리책임자: 이선균</span>
+            <span class="footer-item"
+              >본사: 경기도 성남시 분당구 판교역로180, 803호</span
+            >
+
+            <span class="footer-item">연락처: help@boolbit.town</span>
+          </div>
+          <div class="footer-links">
+            <span class="footer-item">사업자 등록번호: 124-88-02603</span>
+            <span class="footer-item"
+              >통신판매업 신고번호: 제 2022-성남분당A-0689호</span
+            >
+
+            <a
+              href="/policy/service"
+              target="_blank"
+              rel="noreferrer"
+              class="footer-link"
+              >이용약관</a
+            >
+
+            <a
+              href="/policy/privacy"
+              target="_blank"
+              rel="noreferrer"
+              class="footer-link"
+              >개인정보처리방침</a
+            >
+          </div>
+        </footer>
+      </div>
+    </main>
+    <!-- Navbar -->
+    <nav class="nav nav--">
+      <div class="nav__logo">
+        <div class="nav__logo__container">
+          <a href="/">
+            <img
+              class="nav__logo__img"
+              src="/images/BullHubLogo_Circle.png"
+              alt="BullHubLogo"
+            />
+          </a>
+          <p><a href="/">BullHub</a></p>
+        </div>
+        <button id="navToggle" class="nav--toggle">
+          <i class="fa-solid fa-angles-left"></i>
+          <i class="fa-solid fa-angles-right"></i>
+        </button>
+      </div>
+      <div class="nav__section">
+        <div class="nav__section__title"><p>관리자</p></div>
+        <div class="nav__section__content">
+          <i class="fa-regular fa-clipboard"></i>
+          <p><a href="/boardstats">게시물 통계</a></p>
+        </div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-users"></i>
+          <p><a href="/admin">회원 정보 통계</a></p>
+        </div>
+      </div>
+      <div class="nav__section">
+        <div class="nav__section__title"><p>회원</p></div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-user-gear"></i>
+          <p class="nav__section__user">
+            <a href="/users">회원 정보 수정 & 조회</a>
+          </p>
+        </div>
+      </div>
+      <div class="nav__section">
+        <div class="nav__section__title"><p>게시판</p></div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-bullhorn"></i>
+          <p><a href="/boards/announcement">공지사항</a></p>
+        </div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-money-bill-trend-up"></i>
+          <p><a href="/boards/domestic">국내주식</a></p>
+        </div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-flag-usa"></i>
+          <p><a href="/boards/foreign">해외주식</a></p>
+        </div>
+        <div class="nav__section__content">
+          <i class="fa-brands fa-bitcoin"></i>
+          <p><a href="/boards/bitcoin">비트코인</a></p>
+        </div>
+      </div>
+      <div class="nav__section">
+        <div class="nav__section__title"><p>채팅</p></div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-circle-question"></i>
+          <p><a href="/help">관리자 1:1 문의</a></p>
+        </div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-comments"></i>
+          <p><a href="/chat">회원 소통방</a></p>
+        </div>
+      </div>
+    </nav>
+  </body>
 </html>
