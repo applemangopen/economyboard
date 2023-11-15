@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <form id="image-area" method="post" enctype="multipart/form-data">
+      <input id="upload" type="file" name="file" />
+    </form>
+    <form class="board" method="post">
+      <input
+        class="title"
+        type="text"
+        name="title"
+        placeholder="제목"
+        value="{{data.title}}"
+      />
+      <textarea
+        class="content"
+        name="content"
+        cols="30"
+        rows="10"
+        placeholder="내용"
+      >
+{{data.content}}
+    </textarea
+      >
+      <input
+        class="category"
+        type="text"
+        name="category"
+        placeholder="카테고리"
+        value="{{data.category}}"
+      />
+      <input id="image" type="text" name="image" style="display: none" />
+      {% if data.image %}
+      <img src="http://13.125.55.102:4000{{data.image}}" alt="" />
+      {% else %}
+      <img src="" alt="" />
+      {% endif %}
+      <button type="submit">수정하기</button>
+    </form>
+  </body>
+
+  <script>
+    const imageWrapper = document.getElementById("image-area");
+    const inputImage = document.getElementById("upload");
+    const image = document.getElementById("image");
+    const img = document.querySelector("img");
+    const board = document.querySelector(".board");
+    const title = document.querySelector(".title");
+    const content = document.querySelector(".content");
+    const category = document.querySelector(".category");
+
+    image.value = img.src;
+    inputImage.addEventListener("change", async (e) => {
+      e.preventDefault();
+      const imageData = new FormData(imageWrapper);
+      const response = await fetch(`http://13.125.55.102:4000/image`, {
+        method: "post",
+        body: imageData,
+      });
+      const result = await response.json();
+
+      img.src = `http://13.125.55.102:4000/public/temp/${result.filename}`;
+      image.value = result.filename;
+    });
+
+    board.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      //   location.href = `/boards/board_id/${result.id}`;
+      let token;
+      if (document.cookie) {
+        token = document.cookie.split("token=")[1].split(";")[0];
+      }
+      const data = new FormData(board);
+      const body = {
+        title: title.value,
+        content: content.value,
+        category: category.value,
+        image: image.value ? image.value : null,
+      };
+      const response = await fetch(
+        `http://13.125.55.102:4000/boards/board_id/{{data.id}}`,
+        {
+          method: "put",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }
+      );
+      const result = await response.json();
+
+      location.href = `/boards/board_id/{{data.id}}`;
+    });
+  </script>
+
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+  </style>
+</html>

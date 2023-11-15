@@ -2,7 +2,30 @@ const boardService = require("./board.service");
 
 exports.getBoardPageData = async (req, res) => {
   try {
-    res.render("board/view.html");
+    res.render("board/write.html");
+  } catch (error) {
+    console.log("BoardController getBoardPageData Error : " + error.message);
+    throw new Error(
+      "BoardController getBoardPageData Error : " + error.message
+    );
+  }
+};
+exports.getBoardModifyPageData = async (req, res) => {
+  try {
+    const token = req.cookies ? req.cookies.token : null;
+    if (!token) {
+      res.redirect(300, "/auth/login");
+    }
+    const response = await fetch(
+      `http://13.125.55.102:4000/boards/board_id/${req.params.boardId}/user_id/${req.params.userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const board = await response.json();
+    res.render("board/modify.html", board);
   } catch (error) {
     console.log("BoardController getBoardPageData Error : " + error.message);
     throw new Error(
