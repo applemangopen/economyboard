@@ -5,7 +5,21 @@ exports.getBoardPageData = async (req, res) => {
     const boardId = req.params.boardid;
     console.log(boardId);
 
-    const boardPageData = await boardService.getBoardData(boardId);
+    let token;
+    let axiosConfig = {};
+    // req.cookies가 존재하고, token이 있다면 token 값을 설정
+    if (req.cookies && req.cookies["token"]) {
+      token = req.cookies["token"];
+      console.log("token : ", token);
+      // token이 존재할 경우, headers에 Authorization을 추가
+      axiosConfig.headers = {
+        Authorization: `Bearer ${token.token}`,
+      };
+    } else {
+      res.redirect("/auth/login");
+    }
+
+    const boardPageData = await boardService.getBoardData(boardId, axiosConfig);
 
     res.render("board/view.html", boardPageData);
   } catch (error) {
@@ -44,7 +58,7 @@ exports.getBoardModifyPageData = async (req, res) => {
     console.log("BoardController getModifyPageData Error : " + error.message);
     next(error);
   }
-}
+};
 
 exports.getAnnouncementPageData = async (req, res) => {
   try {

@@ -543,6 +543,12 @@ aside a i {
   /* background-color: rgb(255, 208, 255); */
   padding: 1rem;
   font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.viewpage__content__image {
+  max-width: 90%;
+  max-height: 90%;
 }
 .viewpage__likes {
   display: flex;

@@ -92,6 +92,7 @@
               class="header__user__profileimage"
             />
           </div>
+          <p style="display: none">{{userData.id}}</p>
           {% else %}
           <!-- 로그인 상태가 아닐 때 -->
           <a href="/auth/login" class="header__user__name">Login</a>
@@ -132,51 +133,59 @@
           </div>
           <div class="viewpage">
             <div class="viewpage__titlebar">
-              <div class="viewpage__titlebar__title">2302221 리포트 정리</div>
+              <div class="viewpage__titlebar__title">
+                {{title}}&nbsp;&nbsp;({{commentsCount}})
+              </div>
               <div class="viewpage__titlebar__info">
+                {% if profileImage.startsWith('http://13.125.55.102:4000/') %}
                 <img
                   class="viewpage__titlebar__info__profileimg"
-                  src="../public/images/default_profile.png"
-                  alt=""
+                  src="{{ profileImage }}"
+                  alt="Profile Image"
                 />
-                <p class="viewpage__titlebar__info__writer">전청조</p>
+                {% else %}
+                <img
+                  class="viewpage__titlebar__info__profileimg"
+                  src="/images/default_profile.png"
+                  alt="Default Image"
+                />
+                {% endif %}
+                <p class="viewpage__titlebar__info__writer">{{writer}}</p>
                 <p>|</p>
                 <p class="viewpage__titlebar__info__createdAt">
-                  2023년 11월 13일 10:12 | 좋아요 : {{nunjucks-likes}}
+                  {{createdAt}} | 조회수 : {{viewsCount}} | 좋아요 :
+                  {{likesCount}} | 카테고리 : {% if category == 'announcement'
+                  %} 공지사항 {% elif category == 'domestic' %} 국내주식 {% elif
+                  category == 'foreign' %} 해외주식 {% elif category ==
+                  'bitcoin' %} 비트코인 {% else %} 기타 카테고리 {% endif %}
                 </p>
               </div>
             </div>
             <div class="viewpage__content">
-              화장품 - 코리아 프리미엄 반도체 - TSMC 매출 8개월 만에 전월비 (+)
-              기록 인터넷 - K-AI, 반격의 서막 반도체 - 겨울의 끝에서 에너지 -
-              생존전략을 찾아서 전기전자 - 다시 찾아온 기회 정유 - 2024년 연간
-              전망 - 변곡점이 다가온다 자동차 - 시장의 관심은 하이브리드로 조선
-              - 24년 연간전망, 높아진 기대 vs. 견조한 내년 우주항공 - 높은
-              안보위협에 무기 수요 지속 증가할 것 한국콜마 - 3Q23 Review, 디지털
-              전환의 일시적 충격 명신산업 - 달달한 연말의 머스크향 롯데관광개발
-              - 개장 후 첫 흑자전환 더블유게임즈 - 디스카운트 해소 기대 JYP+Ent.
-              - 높아진 위상만큼 유리해진 계약 구조 마음AI - 플랫폼화를 통해
-              효율성을 추구하는 AI전문 기업 한올바이오파마 - 류마티스관절염
-              거대시장으로 진출 가능성 확대 에이텀 - 충전기의 진화를 이끄는 기업
-              클래시스 - 장비판매 다다익선 ⇒ 소모품 매출 증가 한라IMS - 국내 1위
-              선박용 레벨계측 및 자동화 전문기업 해성디에스 - 과거를 보면 답이
-              있다 에이에스텍 - 유기 자외선 차단 원료 생산 전문업체 아이엠티 -
-              HBM, EUV 난 듈다 피엔티 - 주춤했지만 달라진 건 없다 인텔리안테크 -
-              이유 있는 실적 부진 한솔케미칼 - 바람의 방향이 바뀌었다 엔씨소프트
-              - 다작이 필요한 시점 원텍 - 올리지오X와 브라질 투자 포인트 유효
-              비투엔 - 신규사업 늘(NEUL) 런칭 완료 나인테크 - 2024년 미시간,
-              온타리오주 공장 납품 기대 넷마블 - 1회적이 아닌 지속적인
-              턴어라운드가 필요 고려아연 - 남은 단 한 가지 숙제, TC
+              {% if image.startsWith('http://13.125.55.102:4000/public/boards/')
+              %}
+              <img
+                src="{{ image }}"
+                alt="Board Image"
+                class="viewpage__content__image"
+              />
+              {% endif %} {{content}}
             </div>
             <div class="viewpage__likes">
-              <a href="#" class="view__buttons_button"
+              <a
+                href="#"
+                class="view__buttons_button view__buttons_button__bookmark"
                 ><i class="fa-solid fa-book-bookmark"></i>&nbsp;&nbsp;책갈피</a
               >
-              <a href="#" class="view__buttons_button"
+              <a
+                href="#"
+                class="view__buttons_button view__buttons_button__like"
                 ><i class="fa-regular fa-thumbs-up"></i>&nbsp;&nbsp;Like!</a
               >
 
-              <a href="#" class="view__buttons_button"
+              <a
+                href="#"
+                class="view__buttons_button view__buttons_button__dislike"
                 ><i class="fa-regular fa-thumbs-down"></i>&nbsp;&nbsp;Dislike</a
               >
             </div>
@@ -184,15 +193,15 @@
         </section>
         <div class="viewbuttons">
           <div class="viewbuttons__left">
-            <a href="#" class="view__buttons_button"
+            <a href="/boards/{{category}}" class="view__buttons_button"
               ><i class="fa-solid fa-clipboard"></i>&nbsp;&nbsp;목록보기</a
             >
-            <a href="#" class="view__buttons_button"
+            <a href="/boards/board_id/{{id - 1}}" class="view__buttons_button"
               ><i class="fa-regular fa-circle-down"></i>&nbsp;&nbsp;이전 글</a
             >
           </div>
           <p class="viewbuttons__right">
-            <a href="#" class="view__buttons_button"
+            <a href="/boards/board_id/{{id + 1}}" class="view__buttons_button"
               ><i class="fa-regular fa-circle-up"></i>&nbsp;&nbsp;다음 글</a
             >
           </p>
