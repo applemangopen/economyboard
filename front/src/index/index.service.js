@@ -17,11 +17,8 @@ exports.fetchIndexContentData = async (req, res) => {
     }
 
     // axios GET 요청
-    const response = await axios.get(
-      "http://15.164.233.146:4000/",
-      axiosConfig
-    );
-    // console.log("index response : ", response);
+    const response = await axios.get(`${process.env.DB_API}`, axiosConfig);
+    console.log("index response : ", response);
     const { data } = response.data;
     const { user } = response.data;
     // ===== response된 data를 처리 =====
@@ -29,7 +26,7 @@ exports.fetchIndexContentData = async (req, res) => {
       id: item.id,
       title: item.title,
       content: item.content,
-      image: `http://43.201.38.233:4000${item.image}`,
+      image: `${process.env.DB_API}${item.image}`,
     }));
     const announcementsLatest = data.announcementLatests.map((item) => ({
       id: item.id,
@@ -69,7 +66,7 @@ exports.fetchIndexContentData = async (req, res) => {
     const newPhotos = data.newPhotos.map((item) => ({
       id: item.id,
       title: item.title,
-      image: `http://43.201.38.233:4000${item.image}`,
+      image: `${process.env.DB_API}${item.image}`,
       likesCount: item.likesCount,
       commentsCount: item.commentsCount,
     }));
@@ -80,7 +77,7 @@ exports.fetchIndexContentData = async (req, res) => {
         id: user.id,
         username: user.username,
         nickname: user.nickname,
-        image: `http://15.164.233.146:4000${user.image}`,
+        image: `${process.env.DB_API}${user.image}`,
         role: user.role,
         createdAt: user.createdAt,
       };
@@ -99,7 +96,7 @@ exports.fetchIndexContentData = async (req, res) => {
       newPhotos: newPhotos,
       userData: userData,
     };
-    console.log("processedData : ", processedData);
+    // console.log("processedData : ", processedData);
 
     return processedData;
   } catch (error) {

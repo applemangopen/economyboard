@@ -84,3 +84,31 @@ document
       console.error("로그인 실패:", error);
     }
   });
+
+document
+  .getElementById("login-form")
+  .addEventListener("submit", async function (e) {
+    e.preventDefault();
+    try {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const response = await axios.post("/auth/login", {
+        username: email,
+        password: password,
+      });
+
+      if (response.data.success) {
+        // 로그인 성공 메시지 표시
+        const successMessage = document.getElementById("login-success-message");
+        successMessage.style.display = "block";
+
+        // 3초 후 메인 페이지로 리다이렉트
+        setTimeout(() => {
+          window.location.href = response.data.redirectUrl;
+        }, 3500);
+      }
+    } catch (error) {
+      console.error("로그인 실패:", error);
+    }
+  });

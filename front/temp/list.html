@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SignUp | BullHub</title>
+    <title>List | BullHub</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -23,9 +23,9 @@
       crossorigin="anonymous"
       defer
     ></script>
-    <!-- CSS and Javascript -->
-    <link rel="stylesheet" href="/css/signup.css" />
-    <script src="/js/signup.js" defer></script>
+    <!-- CSS, JS, Axios -->
+    <script src="./list.js" defer></script>
+    <link rel="stylesheet" href="./list.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
@@ -108,67 +108,136 @@
       </header>
       <!-- Content -->
       <div class="content-wrapper content-wrapper--expanded">
-        <!-- ===== Login ===== -->
-        <div class="signup">
-          <form class="signup__form" id="signup-form">
-            <div class="signup__title">회원 가입</div>
-            <div class="signup__input-group">
-              <label for="email" class="signup__label"
-                >이메일&nbsp;<span>(필수)</span></label
-              >
-              <input
-                type="email"
-                id="email"
-                name="email"
-                class="signup__input"
-                required
-              />
+        <section class="board">
+          <div class="board__category">
+            <div class="board__category__button">
+              <a href="/boards/announcement">공지사항</a>
             </div>
-            <div class="signup__input-group">
-              <label for="password" class="signup__label"
-                >비밀번호&nbsp;<span>(필수)</span></label
-              >
-              <input
-                type="password"
-                id="password"
-                name="password"
-                class="signup__input"
-                required
-              />
+            <div class="board__category__button">
+              <a href="/boards/domestic">국내주식</a>
             </div>
-            <div class="signup__input-group">
-              <label for="nickname" class="signup__label"
-                >닉네임&nbsp;<span>(필수)</span></label
-              >
-              <input
-                type="nickname"
-                id="nickname"
-                name="nickname"
-                class="signup__input"
-                required
-              />
+            <div class="board__category__button">
+              <a href="/boards/foreign">해외주식</a>
             </div>
-            <div class="signup__input-group">
-              <label for="image" class="signup__label"
-                >프로필 이미지&nbsp;<span>(선택)</span></label
-              >
-              <input
-                type="file"
-                id="image"
-                name="file"
-                class="signup__input"
-                accept="image/*"
-              />
+            <div class="board__category__button">
+              <a href="/boards/bitcoin">비트코인</a>
             </div>
-            <button type="submit" class="signup__button">회원 정보 제출</button>
-          </form>
-          <!-- ===== Signup Success Message ===== -->
-          <div id="signup-success-message" style="display: none">
-            <p>회원가입이 완료 됐습니다 !</p>
-            <p>잠시 후 로그인 페이지로 이동합니다.</p>
           </div>
-        </div>
-
+          <div class="board__list">
+            <div class="board__list__menu">
+              <p class="board__list__menu__text"></p>
+              <a href="boards/write"
+                ><button class="board__list__menu__write">
+                  <i class="fa-solid fa-pencil"></i>&nbsp;&nbsp;글쓰기
+                </button></a
+              >
+            </div>
+            <div class="board__list__table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>카테고리</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>좋아요</th>
+                    <th>작성일</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <!-- 추가 행은 여기에 -->
+                </tbody>
+              </table>
+            </div>
+            <div class="board__list__pagination">
+              <ul class="pagination">
+                <li><button class="prev">이전</button></li>
+                <!-- 페이지 번호는 여기에 동적으로 추가될 것이다 -->
+                <li><button class="next">다음</button></li>
+              </ul>
+            </div>
+            <div class="board__list__search">
+              <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input
+                  type="text"
+                  id="searchInput"
+                  placeholder="검색어를 입력하세요"
+                />
+                <button id="searchButton">검색</button>
+              </div>
+            </div>
+          </div>
+        </section>
         <!-- Arrow up -->
         <aside>
           <a class="arrow-up arrow-up--visible" href="#" title="back to top">

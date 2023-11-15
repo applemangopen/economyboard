@@ -1,16 +1,14 @@
 // ----- 페이지 내 JS 요소 -----
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", function () {
   // 현재 URL 경로 가져오기
   const currentPath = window.location.pathname;
+
   // Nav 토글버튼 클릭
   const navToggle = document.getElementById("navToggle");
   const nav = document.querySelector(".nav");
   const navImg = document.querySelector(".nav__logo__img");
   const header = document.querySelector(".header");
   const contentWrapper = document.querySelector(".content-wrapper");
-  // dotenv 정보 받아오기
-  const clientConfig = await axios.get("/config");
-  const apiUrl = clientConfig.data.apiUrl;
   let navVisible = true;
 
   navToggle.addEventListener("click", function () {

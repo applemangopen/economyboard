@@ -17,7 +17,7 @@ exports.postLogin = async (req, res) => {
 
     // axios를 사용하여 외부 서버로 POST 요청
     const response = await axios.post(
-      "http://15.164.233.146:4000/auth/login",
+      `${process.env.DB_API}/auth/login`,
       loginInfo
     );
     const token = response.data;

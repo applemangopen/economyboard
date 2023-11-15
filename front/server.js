@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
@@ -19,6 +20,12 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+app.get("/config", (req, res) => {
+  const clientConfig = {
+    apiUrl: process.env.DB_API,
+  };
+  res.json(clientConfig);
+});
 app.use(router);
 
 app.listen(3000, () => {

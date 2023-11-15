@@ -23,7 +23,7 @@
       crossorigin="anonymous"
       defer
     ></script>
-    <!-- CSS and Javascript -->
+    <!-- CSS, JS, Axios -->
     <link rel="stylesheet" href="/css/login.css" />
     <script src="/js/login.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -81,10 +81,29 @@
           <div class="header__user__notification">
             <i class="fa-solid fa-bell"></i>
           </div>
-          <a href="/users"
-            ><div class="header__user__profile">
-              <img src="/images/BullProfileImage_Circle.png" alt="" /></div
-          ></a>
+          {% if userData.id %}
+          <!-- 로그인 상태일 때 -->
+          <a href="/users" class="header__user__name"
+            >{{ userData.nickname }}</a
+          >
+          <div class="header__user__profile">
+            <img
+              src="{{ userData.image }}"
+              alt="profile image"
+              class="header__user__profileimage"
+            />
+          </div>
+          {% else %}
+          <!-- 로그인 상태가 아닐 때 -->
+          <a href="/auth/login" class="header__user__name">Login</a>
+          <div class="header__user__profile">
+            <img
+              src="/images/default_profile.png"
+              alt="default image"
+              class="header__user__profileimage"
+            />
+          </div>
+          {% endif %}
         </div>
       </header>
       <!-- Content -->
@@ -121,6 +140,10 @@
               <span class="login__signup__label">11기 모집 중</span>
             </button>
           </a>
+          <div id="login-success-message" style="display: none">
+            <p>로그인에 성공하였습니다.</p>
+            <p>잠시 후 메인 페이지로 이동합니다.</p>
+          </div>
         </div>
 
         <!-- Arrow up -->

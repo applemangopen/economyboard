@@ -464,7 +464,6 @@ aside a i {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: center;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 20px;
   outline: 1px solid var(--color-outline);
 }
@@ -475,10 +474,7 @@ aside a i {
   font-size: 1.7rem;
 }
 .active-category {
-  background-color: rgba(190, 190, 190, 0.5);
-  border-radius: 0.5rem;
-  padding: 0.3rem;
-  width: 90%;
+  background-color: rgba(128, 128, 128, 0.5); /* green with opacity 0.5 */
 }
 .board__list {
   width: 100%;

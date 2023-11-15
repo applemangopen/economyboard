@@ -1,11 +1,15 @@
 // ----- 페이지 내 JS 요소 -----
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   // Nav 토글버튼 클릭
   const navToggle = document.getElementById("navToggle");
   const nav = document.querySelector(".nav");
   const navImg = document.querySelector(".nav__logo__img");
   const header = document.querySelector(".header");
   const contentWrapper = document.querySelector(".content-wrapper");
+  // dotenv 정보 받아오기
+  const clientConfig = await axios.get("/config");
+  const apiUrl = clientConfig.data.apiUrl;
+  // console.log(apiUrl);
   let navVisible = true;
 
   navToggle.addEventListener("click", function () {
@@ -89,15 +93,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const imageFile = formData.get("file");
     if (imageFile && imageFile instanceof File) {
       try {
-        const response = await axios.post(
-          "http://15.164.233.146:4000/image",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const response = await axios.post(`${apiUrl}/image`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
         console.log("responsoe : ", response);
         // 서버로부터 반환된 파일명을 signupData 객체에 할당합니다.
         signupData.image = response.data.filename;
@@ -108,10 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // 이미지 업로드 완료 후, 최종 signupData 객체를 출력합니다.
-    const tokenResponse = await axios.post(
-      "http://15.164.233.146:4000/auth/signup",
-      signupData
-    );
+    const tokenResponse = await axios.post(`${apiUrl}/auth/signup`, signupData);
     console.log("tokenResponse : ", tokenResponse);
     if (tokenResponse) {
       // 성공 메시지 표시

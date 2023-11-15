@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ category }} | BullHub</title>
-    <link rel="stylesheet" href="/css/index.css" />
+    <title>List | BullHub</title>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -23,7 +23,10 @@
       crossorigin="anonymous"
       defer
     ></script>
-    <script src="/js/index.js" defer></script>
+    <!-- CSS, JS, Axios -->
+    <script src="/js/list.js" defer></script>
+    <link rel="stylesheet" href="/css/list.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <main>
@@ -78,14 +81,163 @@
           <div class="header__user__notification">
             <i class="fa-solid fa-bell"></i>
           </div>
-          <a href="/users"
-            ><div class="header__user__profile">
-              <img src="/images/BullProfileImage_Circle.png" alt="" /></div
-          ></a>
+          {% if userData.id %}
+          <!-- 로그인 상태일 때 -->
+          <a href="/users" class="header__user__name"
+            >{{ userData.nickname }}</a
+          >
+          <div class="header__user__profile">
+            <img
+              src="{{ userData.image }}"
+              alt="profile image"
+              class="header__user__profileimage"
+            />
+          </div>
+          {% else %}
+          <!-- 로그인 상태가 아닐 때 -->
+          <a href="/auth/login" class="header__user__name">Login</a>
+          <div class="header__user__profile">
+            <img
+              src="/images/default_profile.png"
+              alt="default image"
+              class="header__user__profileimage"
+            />
+          </div>
+          {% endif %}
         </div>
       </header>
       <!-- Content -->
       <div class="content-wrapper content-wrapper--expanded">
+        <section class="board">
+          <div class="board__category">
+            <div class="board__category__button">
+              <a href="/boards/announcement">공지사항</a>
+            </div>
+            <div class="board__category__button">
+              <a href="/boards/domestic">국내주식</a>
+            </div>
+            <div class="board__category__button">
+              <a href="/boards/foreign">해외주식</a>
+            </div>
+            <div class="board__category__button">
+              <a href="/boards/bitcoin">비트코인</a>
+            </div>
+          </div>
+          <div class="board__list">
+            <div class="board__list__menu">
+              <p class="board__list__menu__text"></p>
+              <a href="boards/write"
+                ><button class="board__list__menu__write">
+                  <i class="fa-solid fa-pencil"></i>&nbsp;&nbsp;글쓰기
+                </button></a
+              >
+            </div>
+            <div class="board__list__table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>카테고리</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>좋아요</th>
+                    <th>작성일</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <tr>
+                    <td>종목토론</td>
+                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
+                    <td>전청조</td>
+                    <td>24</td>
+                    <td>23.11.15</td>
+                  </tr>
+                  <!-- 추가 행은 여기에 -->
+                </tbody>
+              </table>
+            </div>
+            <div class="board__list__pagination">
+              <ul class="pagination">
+                <li><button class="prev">이전</button></li>
+                <!-- 페이지 번호는 여기에 동적으로 추가될 것이다 -->
+                <li><button class="next">다음</button></li>
+              </ul>
+            </div>
+            <div class="board__list__search">
+              <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input
+                  type="text"
+                  id="searchInput"
+                  placeholder="검색어를 입력하세요"
+                />
+                <button id="searchButton">검색</button>
+              </div>
+            </div>
+          </div>
+        </section>
         <!-- Arrow up -->
         <aside>
           <a class="arrow-up arrow-up--visible" href="#" title="back to top">
