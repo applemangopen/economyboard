@@ -2,12 +2,15 @@ const boardService = require("./board.service");
 
 exports.getBoardPageData = async (req, res) => {
   try {
-    res.render("board/view.html");
+    const boardId = req.params.boardid;
+    console.log(boardId);
+
+    const boardPageData = await boardService.getBoardData(boardId);
+
+    res.render("board/view.html", boardPageData);
   } catch (error) {
     console.log("BoardController getBoardPageData Error : " + error.message);
-    throw new Error(
-      "BoardController getBoardPageData Error : " + error.message
-    );
+    next(error);
   }
 };
 exports.getAnnouncementPageData = async (req, res) => {
@@ -19,9 +22,7 @@ exports.getAnnouncementPageData = async (req, res) => {
     console.log(
       "BoardController getAnnouncementPageData Error : " + error.message
     );
-    throw new Error(
-      "BoardController getAnnouncementPageData Error : " + error.message
-    );
+    next(error);
   }
 };
 exports.getDomesticPageData = async (req, res) => {
@@ -29,9 +30,7 @@ exports.getDomesticPageData = async (req, res) => {
     res.render("board/list.html", {});
   } catch (error) {
     console.log("BoardController getDomesticPageData Error : " + error.message);
-    throw new Error(
-      "BoardController getDomesticPageData Error : " + error.message
-    );
+    next(error);
   }
 };
 exports.getForeignPageData = async (req, res) => {
@@ -39,9 +38,7 @@ exports.getForeignPageData = async (req, res) => {
     res.render("board/list.html", {});
   } catch (error) {
     console.log("BoardController getForeignPageData Error : " + error.message);
-    throw new Error(
-      "BoardController getForeignPageData Error : " + error.message
-    );
+    next(error);
   }
 };
 exports.getBitcoinPageData = async (req, res) => {
@@ -49,8 +46,6 @@ exports.getBitcoinPageData = async (req, res) => {
     res.render("board/list.html", {});
   } catch (error) {
     console.log("BoardController getBitcoinPageData Error : " + error.message);
-    throw new Error(
-      "BoardController getBitcoinPageData Error : " + error.message
-    );
+    next(error);
   }
 };
