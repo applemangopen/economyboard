@@ -1,20 +1,20 @@
 const axios = require("axios");
 
 exports.fetchIndexContentData = async (req, res) => {
-  try {
-    let token;
-    let axiosConfig = {};
+    try {
+        let token;
+        let axiosConfig = {};
 
-    // req.cookies가 존재하고, token이 있다면 token 값을 설정
-    if (req.cookies && req.cookies["token"]) {
-      token = req.cookies["token"];
-      // console.log("token : ", token);
+        // req.cookies가 존재하고, token이 있다면 token 값을 설정
+        if (req.cookies && req.cookies["token"]) {
+            token = req.cookies["token"];
+            // console.log("token : ", token);
 
-      // token이 존재할 경우, headers에 Authorization을 추가
-      axiosConfig.headers = {
-        Authorization: `Bearer ${token.token}`,
-      };
-    }
+            // token이 존재할 경우, headers에 Authorization을 추가
+            axiosConfig.headers = {
+                Authorization: `Bearer ${token.token}`,
+            };
+        }
 
     // axios GET 요청
     const response = await axios.get(`${process.env.DB_API}`, axiosConfig);
@@ -57,52 +57,50 @@ exports.fetchIndexContentData = async (req, res) => {
       commentsCount: item.commentsCount,
     }));
 
-    const boardComments = data.boardComments.map((item) => ({
-      id: item.id,
-      title: item.title,
-      likesCount: item.likesCount,
-      commentsCount: item.commentsCount,
-    }));
-    const newPhotos = data.newPhotos.map((item) => ({
-      id: item.id,
-      title: item.title,
-      image: `${process.env.DB_API}${item.image}`,
-      likesCount: item.likesCount,
-      commentsCount: item.commentsCount,
-    }));
-    let userData = {};
-    if (user) {
-      // user 데이터가 존재하는 경우에만 실행
-      userData = {
-        id: user.id,
-        username: user.username,
-        nickname: user.nickname,
-        image: `${process.env.DB_API}${user.image}`,
-        role: user.role,
-        createdAt: user.createdAt,
-      };
+        const boardComments = data.boardComments.map((item) => ({
+            id: item.id,
+            title: item.title,
+            likesCount: item.likesCount,
+            commentsCount: item.commentsCount,
+        }));
+        const newPhotos = data.newPhotos.map((item) => ({
+            id: item.id,
+            title: item.title,
+            image: `${process.env.DB_API}${item.image}`,
+            likesCount: item.likesCount,
+            commentsCount: item.commentsCount,
+        }));
+        let userData = {};
+        if (user) {
+            // user 데이터가 존재하는 경우에만 실행
+            userData = {
+                id: user.id,
+                username: user.username,
+                nickname: user.nickname,
+                image: `${process.env.DB_API}${user.image}`,
+                role: user.role,
+                createdAt: user.createdAt,
+            };
+        }
+        console.log("userData : ", userData);
+
+        // ===== 처리된 데이터 =====
+        const processedData = {
+            mainPhotos: mainPhotos,
+            announcementsLatest: announcementsLatest,
+            domesticBoardLikes: domesticBoardLikes,
+            foreignBoardLikes: foreignBoardLikes,
+            bitcoinBoardLikes: bitcoinBoardLikes,
+            boardLikes: boardLikes,
+            boardComments: boardComments,
+            newPhotos: newPhotos,
+            userData: userData,
+        };
+        // console.log("processedData : ", processedData);
+
+        return processedData;
+    } catch (error) {
+        console.log("IndexService fetchIndexContentData Error : " + error.message);
+        throw new Error("IndexService fetchIndexContentData Error : " + error.message);
     }
-    // console.log("userData : ", userData);
-
-    // ===== 처리된 데이터 =====
-    const processedData = {
-      mainPhotos: mainPhotos,
-      announcementsLatest: announcementsLatest,
-      domesticBoardLikes: domesticBoardLikes,
-      foreignBoardLikes: foreignBoardLikes,
-      bitcoinBoardLikes: bitcoinBoardLikes,
-      boardLikes: boardLikes,
-      boardComments: boardComments,
-      newPhotos: newPhotos,
-      userData: userData,
-    };
-    // console.log("processedData : ", processedData);
-
-    return processedData;
-  } catch (error) {
-    console.log("IndexService fetchIndexContentData Error : " + error.message);
-    throw new Error(
-      "IndexService fetchIndexContentData Error : " + error.message
-    );
-  }
 };
