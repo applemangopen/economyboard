@@ -3,6 +3,426 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>List | BullHub</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      href="/images/BullHubLogo_Circle_favicon.ico"
+      type="image/x-icon"
+    />
+    <!-- FontAwesome Kits -->
+    <script
+      src="https://kit.fontawesome.com/a6fe98d160.js"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <!-- CSS, JS, Axios -->
+    <link rel="stylesheet" href="/css/list.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <main>
+      <!-- Header -->
+      <header class="header">
+        <div class="header__search">
+          <input
+            class="search-input"
+            type="text"
+            placeholder="종목명, 티커 검색"
+            autocomplete="off"
+            aria-autocomplete="list"
+            aria-controls="search-menu"
+            aria-labelledby="search-label"
+          />
+        </div>
+        <div class="header__user">
+          <div class="header__user__display">
+            <div id="stock-slider" class="stock-slider">
+              <div class="stock-item">
+                Apple $182.41 &nbsp; <span style="color: #37d767">3.21%</span>
+                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+              </div>
+              <div class="stock-item">
+                Walt Disney $90.34 &nbsp;
+                <span style="color: #fd2617">0.85%</span>
+                <i class="fa-solid fa-arrow-down" style="color: #fd2617"></i>
+              </div>
+              <div class="stock-item">
+                Intel $37.80 &nbsp; <span style="color: #37d767">1.19%</span>
+                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+              </div>
+              <div class="stock-item">
+                Microsoft $360.69 &nbsp;
+                <span style="color: #fd2617">0.32%</span>
+                <i class="fa-solid fa-arrow-down" style="color: #fd2617"></i>
+              </div>
+              <div class="stock-item">
+                Cisco $52.00 &nbsp; <span style="color: #fd2617">0.56%</span>
+                <i class="fa-solid fa-arrow-down" style="color: #fd2617"></i>
+              </div>
+              <div class="stock-item">
+                Verizon $35.62 &nbsp; <span style="color: #37d767">1.45%</span>
+                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+              </div>
+              <div class="stock-item">
+                Chevron $141.94 &nbsp; <span style="color: #37d767">2.17%</span>
+                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+              </div>
+            </div>
+          </div>
+          <div class="header__user__notification">
+            <i class="fa-solid fa-bell"></i>
+          </div>
+          {% if userData.id %}
+          <!-- 로그인 상태일 때 -->
+          <a href="/users" class="header__user__name"
+            >{{ userData.nickname }}</a
+          >
+          <div class="header__user__profile">
+            <img
+              src="{{ userData.image }}"
+              alt="profile image"
+              class="header__user__profileimage"
+            />
+          </div>
+          <a href="/auth/logout">
+            <div class="header__user__logout" id="logoutButton">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </div>
+          </a>
+          <p style="display: none">{{userData.id}}</p>
+          {% else %}
+          <!-- 로그인 상태가 아닐 때 -->
+          <a href="/auth/login" class="header__user__name">Login</a>
+          <div class="header__user__profile">
+            <img
+              src="/images/default_profile.png"
+              alt="default image"
+              class="header__user__profileimage"
+            />
+          </div>
+          {% endif %}
+        </div>
+      </header>
+      <!-- Content -->
+      <div class="content-wrapper content-wrapper--expanded">
+        <section>
+          <div class="board__list">
+            <form class="board">
+              <input
+                class="title"
+                type="text"
+                name="title"
+                placeholder="제목"
+                value="{{data.title}}"
+              />
+              <textarea
+                class="content"
+                name="content"
+                cols="30"
+                rows="10"
+                placeholder="내용"
+              >
+{{data.content}}</textarea
+              >
+              <input
+                id="image"
+                type="text"
+                name="image"
+                style="display: none"
+              />
+              <label
+                ><input
+                  type="radio"
+                  name="category"
+                  onclick="setCategory('ANNOUNCEMENT')"
+                />
+                공지사항</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="category"
+                  onclick="setCategory('DOMESTIC')"
+                />
+                국내주식 게시판</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="category"
+                  onclick="setCategory('FOREIGN')"
+                />
+                해외주식 게시판</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="category"
+                  onclick="setCategory('BITCOIN')"
+                />
+                비트코인 게시판</label
+              >
+
+              <input id="upload" type="file" name="file" />
+              {% if data.image %}
+              <img
+                class="img"
+                src="http://13.209.19.175:4000{{data.image}}"
+                alt=""
+              />
+              {% else %}
+              <img class="img" src="" alt="" />
+              {% endif %}
+              <button class="submit" type="submit">작성하기</button>
+            </form>
+            <form
+              id="image-area"
+              method="post"
+              enctype="multipart/form-data"
+            ></form>
+            <input
+              class="board-id"
+              type="text"
+              value="{{data.id}}"
+              style="display: none"
+            />
+            <input
+              class="token"
+              type="text"
+              style="display: none"
+              value="{{token}}"
+            />
+            <input class="image" type="text" style="display: none" value="" />
+            <input
+              class="category"
+              type="text"
+              style="display: none"
+              value="{{data.category}}"
+            />
+          </div>
+        </section>
+        <!-- Arrow up -->
+        <aside>
+          <a class="arrow-up arrow-up--visible" href="#" title="back to top">
+            <!-- 만약에 따로 svg에서 스크린 리더기에 정보를 줄 수 없다면,
+                 위와 같이 a tag 안에 attribute로 title을 준 후, 그 안에 정보를 써줄 수 있다. -->
+            <i class="fa-solid fa-arrow-up"></i>
+          </a>
+        </aside>
+        <!-- Footer -->
+        <footer class="footer">
+          <div class="footer-info">
+            <span class="footer-item">불빛 주식회사</span>
+            <span class="footer-item">대표이사: 강수빈</span>
+            <span class="footer-item">개인정보관리책임자: 이선균</span>
+            <span class="footer-item"
+              >본사: 경기도 성남시 분당구 판교역로180, 803호</span
+            >
+
+            <span class="footer-item">연락처: help@boolbit.town</span>
+          </div>
+          <div class="footer-links">
+            <span class="footer-item">사업자 등록번호: 124-88-02603</span>
+            <span class="footer-item"
+              >통신판매업 신고번호: 제 2022-성남분당A-0689호</span
+            >
+
+            <a
+              href="/policy/service"
+              target="_blank"
+              rel="noreferrer"
+              class="footer-link"
+              >이용약관</a
+            >
+
+            <a
+              href="/policy/privacy"
+              target="_blank"
+              rel="noreferrer"
+              class="footer-link"
+              >개인정보처리방침</a
+            >
+          </div>
+        </footer>
+      </div>
+    </main>
+    <!-- Navbar -->
+    <nav class="nav nav--">
+      <div class="nav__logo">
+        <div class="nav__logo__container">
+          <a href="/">
+            <img
+              class="nav__logo__img"
+              src="/images/BullHubLogo_Circle.png"
+              alt="BullHubLogo"
+            />
+          </a>
+          <p><a href="/">BullHub</a></p>
+        </div>
+        <button id="navToggle" class="nav--toggle">
+          <i class="fa-solid fa-angles-left"></i>
+          <i class="fa-solid fa-angles-right"></i>
+        </button>
+      </div>
+      <div class="nav__section">
+        <div class="nav__section__title"><p>관리자</p></div>
+        <div class="nav__section__content">
+          <i class="fa-regular fa-clipboard"></i>
+          <p><a href="/boardstats">게시물 통계</a></p>
+        </div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-users"></i>
+          <p><a href="/admin">회원 정보 통계</a></p>
+        </div>
+      </div>
+      <div class="nav__section">
+        <div class="nav__section__title"><p>회원</p></div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-user-gear"></i>
+          <p class="nav__section__user">
+            <a href="/users">회원 정보 수정 & 조회</a>
+          </p>
+        </div>
+      </div>
+      <div class="nav__section">
+        <div class="nav__section__title"><p>게시판</p></div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-bullhorn"></i>
+          <p><a href="/boards/announcement/1">공지사항</a></p>
+        </div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-money-bill-trend-up"></i>
+          <p><a href="/boards/domestic/1">국내주식</a></p>
+        </div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-flag-usa"></i>
+          <p><a href="/boards/foreign/1">해외주식</a></p>
+        </div>
+        <div class="nav__section__content">
+          <i class="fa-brands fa-bitcoin"></i>
+          <p><a href="/boards/bitcoin/1">비트코인</a></p>
+        </div>
+      </div>
+      <div class="nav__section">
+        <div class="nav__section__title"><p>채팅</p></div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-circle-question"></i>
+          <p><a href="/help">관리자 1:1 문의</a></p>
+        </div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-comments"></i>
+          <p><a href="/chat">회원 소통방</a></p>
+        </div>
+      </div>
+    </nav>
+  </body>
+
+  <script>
+    const imageWrapper = document.getElementById("image-area");
+    const inputImage = document.getElementById("upload");
+    const img = document.querySelector(".img");
+    const board = document.querySelector(".board");
+    const title = document.querySelector(".title");
+    const content = document.querySelector(".content");
+    const image = document.querySelector(".image");
+    const category = document.querySelector(".category");
+    const token = document.querySelector(".token").value;
+    const boardId = document.querySelector(".board-id").value;
+
+    function setCategory(categoryData) {
+      category.value = categoryData;
+    }
+
+    if (img.src) {
+      image.value = img.src;
+    }
+    inputImage.addEventListener("change", async (e) => {
+      e.preventDefault();
+      const imageData = new FormData(imageWrapper);
+      imageData.append("file", inputImage.files[0]);
+      const response = await fetch(`http://13.209.19.175:4000/image`, {
+        method: "post",
+        body: imageData,
+      });
+      const result = await response.json();
+
+      img.src = `http://13.209.19.175:4000/public/temp/${result.filename}`;
+      image.value = result.filename;
+    });
+
+    board.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (!title.value || !content.value || !category.value) {
+        return alert("게시글 정보를 입력해주세요.");
+      } //   location.href = `/boards/board_id/${result.id}`;
+      const body = {
+        title: title.value,
+        content: content.value,
+        category: category.value,
+        image: image.value ? image.value : null,
+      };
+      const response = await fetch(
+        `http://13.209.19.175:4000/boards/board_id/${boardId}`,
+        {
+          method: "put",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }
+      );
+      const result = await response.json();
+
+      location.href = `/boards/board_id/${boardId}`;
+    });
+  </script>
+
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .title {
+      font-size: 32px;
+      border-radius: 16px;
+      padding: 8px;
+    }
+    .content {
+      font-size: 32px;
+      border-radius: 16px;
+      padding: 8px;
+    }
+    .category {
+      font-size: 32px;
+      border-radius: 16px;
+      padding: 8px;
+    }
+    .submit {
+      background-color: #333;
+      color: #eee;
+      font-size: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+  <!-- </html> -->
+
+  <!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
@@ -38,7 +458,7 @@
       {% if data.image %}
       <img src="http://13.209.19.175:4000{{data.image}}" alt="" />
       {% else %}
-      <img src="" alt="" />
+      <img class="img" src="" alt="" />
       {% endif %}
       <button type="submit">수정하기</button>
     </form>
@@ -49,68 +469,5 @@
       style="display: none"
     />
     <input class="token" type="text" style="display: none" value="{{token}}" />
-  </body>
-
-  <script>
-    const imageWrapper = document.getElementById("image-area");
-    const inputImage = document.getElementById("upload");
-    const img = document.querySelector("img");
-    const board = document.querySelector(".board");
-    const title = document.querySelector(".title");
-    const content = document.querySelector(".content");
-    const image = document.querySelector(".image");
-    const category = document.querySelector(".category");
-    const token = document.querySelector(".token").value;
-    const boardId = document.querySelector(".board-id").value;
-
-    if (img.src) {
-      image.value = img.src;
-    }
-    inputImage.addEventListener("change", async (e) => {
-      e.preventDefault();
-      const imageData = new FormData(imageWrapper);
-      const response = await fetch(`http://13.209.19.175:4000/image`, {
-        method: "post",
-        body: imageData,
-      });
-      const result = await response.json();
-
-      img.src = `http://13.209.19.175:4000/public/temp/${result.filename}`;
-      image.value = result.filename;
-    });
-
-    board.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      //   location.href = `/boards/board_id/${result.id}`;
-
-      const body = {
-        title: title.value,
-        content: content.value,
-        category: category.value,
-        image: image.value ? image.value : null,
-      };
-      const response = await fetch(
-        `http://13.209.19.175:4000/boards/board_id/${boardId}`,
-        {
-          method: "put",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-        }
-      );
-      const result = await response.json();
-
-      location.href = `/boards/board_id/${boardId}`;
-    });
-  </script>
-
-  <style>
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-  </style>
+  </body> -->
 </html>
