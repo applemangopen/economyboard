@@ -5,6 +5,7 @@ exports.getUserDetails = async (req, res) => {
     const userId = req.params.userId;
 
     const userData = await userService.fetchUserContentData(userId, req);
+    userData.user.image = `${process.env.DB_API}${userData.user.image}`;
     if (!userData) {
       // userData가 null이면 오류 처리
       return res.status(500).send("Error fetching user data");

@@ -1,31 +1,34 @@
 const axios = require("axios");
 
 exports.fetchUserContentData = async (userId, req) => {
-    try {
-        let token;
-        let axiosConfig = {};
-        if (req.cookies && req.cookies["token"]) {
-            token = req.cookies["token"];
-            axiosConfig.headers = {
-                Authorization: `Bearer ${token.token}`,
-            };
-        } else {
-            return res.redirect("/auth/login");
-        }
-
-        const response = await axios.get(`${process.env.DB_API}/users/${userId}`, axiosConfig);
-        const userData = response.data;
-
-        if (userData && userData.data && userData.data.image) {
-            userData.data.image = `${process.env.DB_API}${userData.data.image}`;
-        }
-
-        // userData 객체에 token을 추가
-        return { ...userData, token: token };
-    } catch (error) {
-        console.error("UserService fetchUserContentData Error: " + error.message);
-        return null;
+  try {
+    let token;
+    let axiosConfig = {};
+    if (req.cookies && req.cookies["token"]) {
+      token = req.cookies["token"];
+      axiosConfig.headers = {
+        Authorization: `Bearer ${token.token}`,
+      };
+    } else {
+      return res.redirect("/auth/login");
     }
+
+    const response = await axios.get(
+      `${process.env.DB_API}/users/${userId}`,
+      axiosConfig
+    );
+    const userData = response.data;
+
+    if (userData && userData.data && userData.data.image) {
+      userData.data.image = `${process.env.DB_API}${userData.data.image}`;
+    }
+
+    // userData 객체에 token을 추가
+    return { ...userData, token: token };
+  } catch (error) {
+    console.error("UserService fetchUserContentData Error: " + error.message);
+    return null;
+  }
 };
 
 // exports.updateUserData = async (req) => {
@@ -49,25 +52,28 @@ exports.fetchUserContentData = async (userId, req) => {
 // };
 
 exports.deleteUserData = async (userId, req) => {
-    try {
-        let token;
-        let axiosConfig = {};
-        // req.cookies가 존재하고, token이 있다면 token 값을 설정
-        if (req.cookies && req.cookies["token"]) {
-            token = req.cookies["token"];
-            console.log("token : ", token);
-            // token이 존재할 경우, headers에 Authorization을 추가
-            axiosConfig.headers = {
-                Authorization: `Bearer ${token.token}`,
-            };
-        } else {
-            res.redirect("/auth/login");
-        }
-
-        const response = await axios.delete(`http://13.209.19.175:4000/users/${userId}`, axiosConfig);
-        return response.data;
-    } catch (error) {
-        console.error("UserService deleteUserData Error: " + error.message);
-        throw new Error("UserService deleteUserData Error: " + error.message);
+  try {
+    let token;
+    let axiosConfig = {};
+    // req.cookies가 존재하고, token이 있다면 token 값을 설정
+    if (req.cookies && req.cookies["token"]) {
+      token = req.cookies["token"];
+      console.log("token : ", token);
+      // token이 존재할 경우, headers에 Authorization을 추가
+      axiosConfig.headers = {
+        Authorization: `Bearer ${token.token}`,
+      };
+    } else {
+      res.redirect("/auth/login");
     }
+
+    const response = await axios.delete(
+      `${process.env.DB_API}/users/${userId}`,
+      axiosConfig
+    );
+    return response.data;
+  } catch (error) {
+    console.error("UserService deleteUserData Error: " + error.message);
+    throw new Error("UserService deleteUserData Error: " + error.message);
+  }
 };
