@@ -29,6 +29,7 @@
       <img src="" alt="" />
       <button type="submit">작성하기</button>
     </form>
+    <input class="token" type="text" style="display: none" value="{{token}}" />
   </body>
 
   <script>
@@ -40,25 +41,23 @@
     const title = document.querySelector(".title");
     const content = document.querySelector(".content");
     const category = document.querySelector(".category");
+    const token = document.querySelector(".token").value;
 
     inputImage.addEventListener("change", async (e) => {
       e.preventDefault();
       const imageData = new FormData(imageWrapper);
-      const response = await fetch(`http://13.125.55.102:4000/image`, {
+      const response = await fetch(`http://13.209.19.175:4000/image`, {
         method: "post",
         body: imageData,
       });
       const result = await response.json();
-      img.src = `http://13.125.55.102:4000/public/temp/${result.filename}`;
+      img.src = `http://13.209.19.175:4000/public/temp/${result.filename}`;
+      image.value = result.filename;
     });
 
     board.addEventListener("submit", async (e) => {
       e.preventDefault();
       //   location.href = `/boards/board_id/${result.id}`;
-      let token;
-      if (document.cookie) {
-        token = document.cookie.split("token=")[1].split(";")[0];
-      }
       const data = new FormData(board);
       const body = {
         title: title.value,
@@ -66,7 +65,7 @@
         category: category.value,
         image: image.value ? image.value : null,
       };
-      const response = await fetch(`http://13.125.55.102:4000/boards`, {
+      const response = await fetch(`http://13.209.19.175:4000/boards`, {
         method: "post",
         headers: {
           Authorization: `Bearer ${token}`,

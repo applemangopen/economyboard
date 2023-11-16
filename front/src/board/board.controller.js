@@ -33,7 +33,8 @@ exports.getBoardPageData = async (req, res, next) => {
 
 exports.getModifyPageData = async (req, res, next) => {
   try {
-    res.render("board/write.html");
+    const token = req.cookies ? req.cookies.token : null;
+    res.render("board/write.html", { ...token });
   } catch (error) {
     console.log("BoardController getBoardPageData Error : " + error.message);
     throw new Error(
@@ -41,6 +42,7 @@ exports.getModifyPageData = async (req, res, next) => {
     );
   }
 };
+
 exports.getBoardModifyPageData = async (req, res, next) => {
   try {
     const token = req.cookies ? req.cookies.token : null;
@@ -48,17 +50,46 @@ exports.getBoardModifyPageData = async (req, res, next) => {
       res.redirect(300, "/auth/login");
     }
     const response = await fetch(
-      `http://13.125.55.102:4000/boards/board_id/${req.params.boardId}/user_id/${req.params.userId}`,
+      `http://13.209.19.175:4000/boards/board_id/${req.params.boardId}/user_id/${req.params.userId}`,
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token.token}`,
         },
       }
     );
     const board = await response.json();
-    res.render("board/modify.html", board);
+    res.render("board/modify.html", { ...board, ...token });
   } catch (error) {
     console.log("BoardController getModifyPageData Error : " + error.message);
+    next(error);
+  }
+};
+
+exports.getCategoryPageData = async (req, res) => {
+  try {
+    let response = null;
+    if (req.query.keyword) {
+      response = await fetch(
+        `http://13.209.19.175:4000/boards/${req.params.category.toUpperCase()}/${
+          req.params.page
+        }?keyword=${req.query.keyword}`
+      );
+    } else {
+      response = await fetch(
+        `http://13.209.19.175:4000/boards/${req.params.category.toUpperCase()}/${
+          req.params.page
+        }`
+      );
+    }
+    const boardList = await response.json();
+    const list = boardList.data.list[0];
+    for (let board of list) {
+      board.createdAt = board.createdAt.toString().split("T")[0];
+    }
+    boardList.category = req.params.category.toUpperCase();
+    res.render("board/list.html", boardList);  
+  } catch (error) {
+    console.log("BoardController getCategorypageData Error : " + error.message);
     next(error);
   }
 };
@@ -91,43 +122,6 @@ exports.deleteBoardPage = async (req, res, next) => {
     }
   } catch (error) {
     console.log("BoardController deleteBoardPage Error : " + error.message);
-    next(error);
-  }
-};
-
-exports.getAnnouncementPageData = async (req, res, next) => {
-  try {
-    let processedData = {};
-    processedData.category = "Announcement";
-    res.render("board/list.html", processedData);
-  } catch (error) {
-    console.log(
-      "BoardController getAnnouncementPageData Error : " + error.message
-    );
-    next(error);
-  }
-};
-exports.getDomesticPageData = async (req, res, next) => {
-  try {
-    res.render("board/list.html", {});
-  } catch (error) {
-    console.log("BoardController getDomesticPageData Error : " + error.message);
-    next(error);
-  }
-};
-exports.getForeignPageData = async (req, res, next) => {
-  try {
-    res.render("board/list.html", {});
-  } catch (error) {
-    console.log("BoardController getForeignPageData Error : " + error.message);
-    next(error);
-  }
-};
-exports.getBitcoinPageData = async (req, res, next) => {
-  try {
-    res.render("board/list.html", {});
-  } catch (error) {
-    console.log("BoardController getBitcoinPageData Error : " + error.message);
     next(error);
   }
 };

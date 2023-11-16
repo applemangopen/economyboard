@@ -1,7 +1,7 @@
 // ----- 페이지 내 JS 요소 -----
 document.addEventListener("DOMContentLoaded", async function () {
   // 현재 URL 경로 가져오기
-  const currentPath = window.location.pathname;
+  const currentPath = window.location.pathname.split("/")[2];
   // Nav 토글버튼 클릭
   const navToggle = document.getElementById("navToggle");
   const nav = document.querySelector(".nav");
@@ -73,21 +73,21 @@ document.addEventListener("DOMContentLoaded", async function () {
   // ===== Board List Menu Text 설정 =====
   const menuTextElement = document.querySelector(".board__list__menu__text");
   switch (currentPath) {
-    case "/boards/announcement":
+    case "announcement":
       menuTextElement.textContent = "공지사항 게시판";
-      highlightCategory('a[href="/boards/announcement"]');
+      highlightCategory('a[href="/boards/announcement/1"]');
       break;
-    case "/boards/domestic":
+    case "domestic":
       menuTextElement.textContent = "국내주식 게시판";
-      highlightCategory('a[href="/boards/domestic"]');
+      highlightCategory('a[href="/boards/domestic/1"]');
       break;
-    case "/boards/foreign":
+    case "foreign":
       menuTextElement.textContent = "해외주식 게시판";
-      highlightCategory('a[href="/boards/foreign"]');
+      highlightCategory('a[href="/boards/foreign/1"]');
       break;
-    case "/boards/bitcoin":
+    case "bitcoin":
       menuTextElement.textContent = "비트코인 게시판";
-      highlightCategory('a[href="/boards/bitcoin"]');
+      highlightCategory('a[href="/boards/bitcoin/1"]');
       break;
     default:
       menuTextElement.textContent = "게시판";
@@ -102,31 +102,31 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  // ===== Pagination =====
-  const numberOfPages = 10; // 총 페이지 수
-  const paginationUl = document.querySelector(".pagination");
+  // // ===== Pagination =====
+  // const numberOfPages = 10; // 총 페이지 수
+  // const paginationUl = document.querySelector(".pagination");
 
-  function createPageButton(pageNumber) {
-    const li = document.createElement("li");
-    const button = document.createElement("button");
-    button.textContent = pageNumber;
-    button.addEventListener("click", function () {
-      // 페이지 버튼 클릭 시의 동작
-      console.log("Page " + pageNumber);
-    });
-    li.appendChild(button);
-    return li;
-  }
+  // function createPageButton(pageNumber) {
+  //   const li = document.createElement("li");
+  //   const button = document.createElement("button");
+  //   button.textContent = pageNumber;
+  //   button.addEventListener("click", function () {
+  //     // 페이지 버튼 클릭 시의 동작
+  //     console.log("Page " + pageNumber);
+  //   });
+  //   li.appendChild(button);
+  //   return li;
+  // }
 
-  for (let i = 1; i <= numberOfPages; i++) {
-    paginationUl.insertBefore(
-      createPageButton(i),
-      paginationUl.querySelector(".next").parentNode
-    );
-  }
+  // for (let i = 1; i <= numberOfPages; i++) {
+  //   paginationUl.insertBefore(
+  //     createPageButton(i),
+  //     paginationUl.querySelector(".next").parentNode
+  //   );
+  // }
 
-  const prevButton = document.querySelector(".prev");
-  const nextButton = document.querySelector(".next");
+  // const prevButton = document.querySelector(".prev");
+  // const nextButton = document.querySelector(".next");
 
   // '이전' 버튼의 초기 상태 설정
   prevButton.classList.add("disabled");
@@ -160,4 +160,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       prevButton.classList.remove("disabled");
     }
   });
+});
+
+const search = document.querySelector(".search-bar");
+const input = document.querySelector("#searchInput");
+
+search.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  location.href = `${window.location.pathname}?keyword=${input.value}`;
 });
