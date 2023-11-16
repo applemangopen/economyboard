@@ -1,6 +1,6 @@
 const boardService = require("./board.service");
 const axios = require("axios");
-
+// console.log("BoardController .env : ", process.env.DB_API);
 exports.getBoardPageData = async (req, res, next) => {
   try {
     const boardId = req.params.boardId;
@@ -45,12 +45,34 @@ exports.getWritePageData = async (req, res, next) => {
 
 exports.getModifyPageData = async (req, res, next) => {
   try {
-    const token = req.cookies ? req.cookies.token : null;
+    // ===== 사용자 cookie 받아와서, user객체 정보 받아오기 =====
+    let token;
+    let axiosConfig = {};
+
+    // req.cookies가 존재하고, token이 있다면 token 값을 설정
+    if (req.cookies && req.cookies["token"]) {
+      token = req.cookies["token"];
+      // console.log("token : ", token);
+      // token이 존재할 경우, headers에 Authorization을 추가
+      axiosConfig.headers = {
+        Authorization: `Bearer ${token.token}`,
+      };
+    }
+
+    // axios GET 요청
+    const responseData = await axios.get(`${process.env.DB_API}`, axiosConfig);
+    // console.log("index response : ", response);
+    const { user } = responseData.data;
+
+    // console.log(user);
+    // =========================================================
+
+    token = req.cookies ? req.cookies.token : null;
     if (!token) {
       res.redirect(300, "/auth/login");
     }
     const response = await fetch(
-      `http://13.209.19.175:4000/boards/board_id/${req.params.boardId}/user_id/${req.params.userId}`,
+      `${process.env.DB_API}/boards/board_id/${req.params.boardId}/user_id/${req.params.userId}`,
       {
         headers: {
           Authorization: `Bearer ${token.token}`,
@@ -65,28 +87,68 @@ exports.getModifyPageData = async (req, res, next) => {
   }
 };
 
-exports.getCategoryPageData = async (req, res) => {
+exports.getCategoryPageData = async (req, res, next) => {
   try {
+    // ===== 사용자 cookie 받아와서, user객체 정보 받아오기 =====
+    let token;
+    let axiosConfig = {};
+
+    // req.cookies가 존재하고, token이 있다면 token 값을 설정
+    if (req.cookies && req.cookies["token"]) {
+      token = req.cookies["token"];
+      // console.log("token : ", token);
+      // token이 존재할 경우, headers에 Authorization을 추가
+      axiosConfig.headers = {
+        Authorization: `Bearer ${token.token}`,
+      };
+    }
+
+    // axios GET 요청
+    const responseData = await axios.get(`${process.env.DB_API}`, axiosConfig);
+    // console.log("index response : ", response);
+    const { user } = responseData.data;
+
+    // console.log(user);
+    // =========================================================
+
     let response = null;
     if (req.query.keyword) {
       response = await fetch(
-        `http://13.209.19.175:4000/boards/${req.params.category.toUpperCase()}/${
+        `${process.env.DB_API}/boards/${req.params.category.toUpperCase()}/${
           req.params.page
         }?keyword=${req.query.keyword}`
       );
     } else {
       response = await fetch(
-        `http://13.209.19.175:4000/boards/${req.params.category.toUpperCase()}/${
+        `${process.env.DB_API}/boards/${req.params.category.toUpperCase()}/${
           req.params.page
         }`
       );
     }
     const boardList = await response.json();
+    // console.log("BoardController getCategoryPageData boardList : ", boardList);
+    // console.log(
+    //   "BoardController getCategoryPageData boardList.data : ",
+    //   boardList.data
+    // );
+    // console.log(
+    //   "BoardController getCategoryPageData boardList.data.list : ",
+    //   boardList.data.list
+    // );
     const list = boardList.data.list[0];
+
     for (let board of list) {
       board.createdAt = board.createdAt.toString().split("T")[0];
     }
     boardList.category = req.params.category.toUpperCase();
+    boardList.userData = {
+      id: user.id,
+      nickname: user.nickname,
+      image: `${process.env.DB_API}${user.image}`,
+    };
+
+    // console.log("boardlist : ", boardList);
+
     res.render("board/list.html", boardList);
   } catch (error) {
     console.log("BoardController getCategorypageData Error : " + error.message);
