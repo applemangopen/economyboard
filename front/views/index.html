@@ -93,6 +93,12 @@
               class="header__user__profileimage"
             />
           </div>
+          <a href="/auth/logout">
+            <div class="header__user__logout" id="logoutButton">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </div>
+          </a>
+          <p style="display: none">{{userData.id}}</p>
           {% else %}
           <!-- 로그인 상태가 아닐 때 -->
           <a href="/auth/login" class="header__user__name">Login</a>
@@ -113,7 +119,7 @@
             <img src="/images/advertise1-2.webp" alt="advertise1" />
           </div>
           <div class="upper__advertise2">
-            <img src="/images/advertise2-3.png" alt="advertise2" />
+            <img src="/images/advertise2-5.png" alt="advertise2" />
           </div>
           <article class="upper_thumbbox">
             <div class="upper_thumbbox_imagewrap">
@@ -839,19 +845,19 @@
         <div class="nav__section__title"><p>게시판</p></div>
         <div class="nav__section__content">
           <i class="fa-solid fa-bullhorn"></i>
-          <p><a href="/boards/announcement">공지사항</a></p>
+          <p><a href="/boards/announcement/1">공지사항</a></p>
         </div>
         <div class="nav__section__content">
           <i class="fa-solid fa-money-bill-trend-up"></i>
-          <p><a href="/boards/domestic">국내주식</a></p>
+          <p><a href="/boards/domestic/1">국내주식</a></p>
         </div>
         <div class="nav__section__content">
           <i class="fa-solid fa-flag-usa"></i>
-          <p><a href="/boards/foreign">해외주식</a></p>
+          <p><a href="/boards/foreign/1">해외주식</a></p>
         </div>
         <div class="nav__section__content">
           <i class="fa-brands fa-bitcoin"></i>
-          <p><a href="/boards/bitcoin">비트코인</a></p>
+          <p><a href="/boards/bitcoin/1">비트코인</a></p>
         </div>
       </div>
       <div class="nav__section">

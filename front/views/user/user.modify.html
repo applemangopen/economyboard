@@ -1,23 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    </head>
-    <body>
-        <form id="modifyForm">
-            <label for="nickname">Nickname:</label>
-            <input type="text" id="nickname" name="nickname" value="기존닉네임" /><br /><br />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <form id="modifyForm">
+      <label for="nickname">Nickname:</label>
+      <input
+        type="text"
+        id="nickname"
+        name="nickname"
+        value="기존닉네임"
+      /><br /><br />
 
-            <label for="image">Profile Image URL:</label>
-            <img id="imagePreview" src="" alt="프로필 이미지 미리보기" style="max-width: 100px; max-height: 100px" />
-            <input type="text" id="image" name="image" value="기존이미지URL" /><br /><br />
+      <label for="image">Profile Image URL:</label>
+      <img
+        id="imagePreview"
+        src=""
+        alt="프로필 이미지 미리보기"
+        style="max-width: 100px; max-height: 100px"
+      />
+      <input
+        type="text"
+        id="image"
+        name="image"
+        value="기존이미지URL"
+      /><br /><br />
 
-            <button type="submit">저장</button>
-        </form>
+      <button type="submit">저장</button>
+    </form>
 
-        <script src="/js/userModify.js"></script>
-    </body>
+    <script src="/js/userModify.js"></script>
+  </body>
 </html>
