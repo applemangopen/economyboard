@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error | BullHub</title>
+    <link
+      rel="icon"
+      href="/images/BullHubLogo_Circle_favicon.ico"
+      type="image/x-icon"
+    />
+    <style>
+      body {
+        font-family: "Open Sans", sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #e6e6e6;
+      }
+
+      .error-container {
+        text-align: center;
+        color: #1f2937;
+      }
+
+      .error-content h1 {
+        font-size: 2.5rem;
+        color: #03e8f9;
+      }
+
+      .error-content p {
+        font-size: 1.2rem;
+        margin: 20px 0;
+      }
+
+      .home-link {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #03e8f9;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+      }
+
+      .home-link:hover {
+        background-color: #fd6413;
+      }
+      .error-image {
+        width: 250px;
+        border-radius: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="error-container">
+      <div class="error-content">
+        <img
+          class="error-image"
+          src="/images/BullHubLogo_Square.png"
+          alt="BullHubLogo_Square"
+        />
+        <br />
+        <h1>존재하지 않는 페이지거나,</h1>
+        <h1>오류로 인하여 현재 페이지를 볼 수 없습니다.</h1>
+        <p>페이지의 주소가 변경 혹은 삭제되었을 수 있으니,</p>
+        <p>
+          입력하신 주소가 정확한지 확인하시고 잠시 후 다시 시도해 주시기
+          바랍니다.
+        </p>
+        <a href="/" class="home-link">메인페이지로 돌아가기</a>
+      </div>
+    </div>
+    <script>
+      document
+        .querySelector(".home-link")
+        .addEventListener("click", function () {
+          window.location.href = "/";
+        });
+    </script>
+  </body>
+</html>

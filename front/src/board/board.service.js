@@ -2,8 +2,8 @@ const axios = require("axios");
 
 exports.getBoardData = async (boardId, axiosConfig) => {
   try {
-    console.log(boardId);
-    console.log(process.env.DB_API);
+    // console.log(boardId);
+    // console.log(process.env.DB_API);
     const response = await axios.get(
       `${process.env.DB_API}/boards/board_id/${boardId}`,
       axiosConfig
@@ -41,6 +41,6 @@ exports.getBoardData = async (boardId, axiosConfig) => {
     return processedData;
   } catch (error) {
     console.log("BoardService getBoardData Error : " + error.message);
-    next(error);
+    throw new Error(error);
   }
 };

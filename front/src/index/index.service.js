@@ -16,46 +16,46 @@ exports.fetchIndexContentData = async (req, res) => {
             };
         }
 
-        // axios GET 요청
-        const response = await axios.get(`${process.env.DB_API}`, axiosConfig);
-        console.log("index response : ", response);
-        const { data } = response.data;
-        const { user } = response.data;
-        // ===== response된 data를 처리 =====
-        const mainPhotos = data.mainPhotos.map((item) => ({
-            id: item.id,
-            title: item.title,
-            content: item.content,
-            image: `${process.env.DB_API}${item.image}`,
-        }));
-        const announcementsLatest = data.announcementLatests.map((item) => ({
-            id: item.id,
-            title: item.title,
-        }));
-        const domesticBoardLikes = data.domesticBoardLikes.map((item) => ({
-            id: item.id,
-            title: item.title,
-            likesCount: item.likesCount,
-            commentsCount: item.commentsCount,
-        }));
-        const foreignBoardLikes = data.foreignBoardLikes.map((item) => ({
-            id: item.id,
-            title: item.title,
-            likesCount: item.likesCount,
-            commentsCount: item.commentsCount,
-        }));
-        const bitcoinBoardLikes = data.bitcoinBoardLikes.map((item) => ({
-            id: item.id,
-            title: item.title,
-            likesCount: item.likesCount,
-            commentsCount: item.commentsCount,
-        }));
-        const boardLikes = data.boardLikes.map((item) => ({
-            id: item.id,
-            title: item.title,
-            likesCount: item.likesCount,
-            commentsCount: item.commentsCount,
-        }));
+    // axios GET 요청
+    const response = await axios.get(`${process.env.DB_API}`, axiosConfig);
+    // console.log("index response : ", response);
+    const { data } = response.data;
+    const { user } = response.data;
+    // ===== response된 data를 처리 =====
+    const mainPhotos = data.mainPhotos.map((item) => ({
+      id: item.id,
+      title: item.title,
+      content: item.content,
+      image: `${process.env.DB_API}${item.image}`,
+    }));
+    const announcementsLatest = data.announcementLatests.map((item) => ({
+      id: item.id,
+      title: item.title,
+    }));
+    const domesticBoardLikes = data.domesticBoardLikes.map((item) => ({
+      id: item.id,
+      title: item.title,
+      likesCount: item.likesCount,
+      commentsCount: item.commentsCount,
+    }));
+    const foreignBoardLikes = data.foreignBoardLikes.map((item) => ({
+      id: item.id,
+      title: item.title,
+      likesCount: item.likesCount,
+      commentsCount: item.commentsCount,
+    }));
+    const bitcoinBoardLikes = data.bitcoinBoardLikes.map((item) => ({
+      id: item.id,
+      title: item.title,
+      likesCount: item.likesCount,
+      commentsCount: item.commentsCount,
+    }));
+    const boardLikes = data.boardLikes.map((item) => ({
+      id: item.id,
+      title: item.title,
+      likesCount: item.likesCount,
+      commentsCount: item.commentsCount,
+    }));
 
         const boardComments = data.boardComments.map((item) => ({
             id: item.id,

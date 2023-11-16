@@ -28,6 +28,13 @@ app.get("/config", (req, res) => {
 });
 app.use(router);
 
-app.listen(3000, () => {
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  console.log(err.message);
+  // 사용자에게 오류 페이지 출력
+  res.status(500).sendFile(path.join(__dirname, "views", "error.html"));
+});
+
+app.listen(process.env.PORT, () => {
   console.log("Front server Start");
 });

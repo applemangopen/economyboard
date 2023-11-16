@@ -265,6 +265,9 @@ a:active {
   background-color: rgba(3, 232, 249, 0.3); /* 호버 시 배경색을 흐리게 변경 */
   color: var(--color-light-gray);
 }
+.header__user__logout {
+  font-size: 24px;
+}
 
 .header__user__profileimage {
   width: 36px;

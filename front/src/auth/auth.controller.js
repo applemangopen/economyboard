@@ -54,11 +54,14 @@ exports.postSignup = async (req, res) => {
     throw new Error("AuthController postSignup Error : " + error.message);
   }
 };
-exports.postLogout = async (req, res) => {
+
+// ===== Logout =====
+exports.getLogout = async (req, res) => {
   try {
-    // res.render("login.html", {});
+    res.cookie("token", "", { maxAge: 0, httpOnly: true, path: "/" });
+    res.redirect("/"); // 메인 페이지로 리디렉션
   } catch (error) {
-    console.log("AuthController postSignup Error : " + error.message);
-    throw new Error("AuthController postSignup Error : " + error.message);
+    console.log("AuthController postLogout Error : " + error.message);
+    throw new Error("AuthController postLogout Error : " + error.message);
   }
 };

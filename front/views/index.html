@@ -16,24 +16,126 @@
         <!-- FontAwesome Kits -->
         <script src="https://kit.fontawesome.com/a6fe98d160.js" crossorigin="anonymous" defer></script>
 
-        <link rel="stylesheet" href="/css/index.css" />
-        <script src="/js/index.js" defer></script>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    </head>
-    <body>
-        <main>
-            <!-- Header -->
-            <header class="header">
-                <div class="header__search">
-                    <input
-                        class="search-input"
-                        type="text"
-                        placeholder="종목명, 티커 검색"
-                        autocomplete="off"
-                        aria-autocomplete="list"
-                        aria-controls="search-menu"
-                        aria-labelledby="search-label"
-                    />
+    <link rel="stylesheet" href="/css/index.css" />
+    <script src="/js/index.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <main>
+      <!-- Header -->
+      <header class="header">
+        <div class="header__search">
+          <input
+            class="search-input"
+            type="text"
+            placeholder="종목명, 티커 검색"
+            autocomplete="off"
+            aria-autocomplete="list"
+            aria-controls="search-menu"
+            aria-labelledby="search-label"
+          />
+        </div>
+        <div class="header__user">
+          <div class="header__user__display">
+            <div id="stock-slider" class="stock-slider">
+              <div class="stock-item">
+                Apple $182.41 &nbsp; <span style="color: #37d767">3.21%</span>
+                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+              </div>
+              <div class="stock-item">
+                Walt Disney $90.34 &nbsp;
+                <span style="color: #fd2617">0.85%</span>
+                <i class="fa-solid fa-arrow-down" style="color: #fd2617"></i>
+              </div>
+              <div class="stock-item">
+                Intel $37.80 &nbsp; <span style="color: #37d767">1.19%</span>
+                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+              </div>
+              <div class="stock-item">
+                Microsoft $360.69 &nbsp;
+                <span style="color: #fd2617">0.32%</span>
+                <i class="fa-solid fa-arrow-down" style="color: #fd2617"></i>
+              </div>
+              <div class="stock-item">
+                Cisco $52.00 &nbsp; <span style="color: #fd2617">0.56%</span>
+                <i class="fa-solid fa-arrow-down" style="color: #fd2617"></i>
+              </div>
+              <div class="stock-item">
+                Verizon $35.62 &nbsp; <span style="color: #37d767">1.45%</span>
+                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+              </div>
+              <div class="stock-item">
+                Chevron $141.94 &nbsp; <span style="color: #37d767">2.17%</span>
+                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+              </div>
+            </div>
+          </div>
+          <div class="header__user__notification">
+            <i class="fa-solid fa-bell"></i>
+          </div>
+          {% if userData.id %}
+          <!-- 로그인 상태일 때 -->
+          <a href="/users" class="header__user__name"
+            >{{ userData.nickname }}</a
+          >
+          <div class="header__user__profile">
+            <img
+              src="{{ userData.image }}"
+              alt="profile image"
+              class="header__user__profileimage"
+            />
+          </div>
+          <a href="/auth/logout">
+            <div class="header__user__logout" id="logoutButton">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </div>
+          </a>
+          <p style="display: none">{{userData.id}}</p>
+          {% else %}
+          <!-- 로그인 상태가 아닐 때 -->
+          <a href="/auth/login" class="header__user__name">Login</a>
+          <div class="header__user__profile">
+            <img
+              src="/images/default_profile.png"
+              alt="default image"
+              class="header__user__profileimage"
+            />
+          </div>
+          {% endif %}
+        </div>
+      </header>
+      <!-- Content -->
+      <div class="content-wrapper content-wrapper--expanded">
+        <section class="upper">
+          <div class="upper__advertise1">
+            <img src="/images/advertise1-2.webp" alt="advertise1" />
+          </div>
+          <div class="upper__advertise2">
+            <img src="/images/advertise2-5.png" alt="advertise2" />
+          </div>
+          <article class="upper_thumbbox">
+            <div class="upper_thumbbox_imagewrap">
+              <a href="/boards/board_id/{{ mainPhotos[0].id }}">
+                <img
+                  src="{{ mainPhotos[0].image }}"
+                  alt="{{ mainPhotos[0].image }}"
+                />
+                <div>
+                  <p>{{ mainPhotos[0].title }}</p>
+                  <p>{{ mainPhotos[0].content }}</p>
+                </div>
+              </a>
+            </div>
+            <div class="upper_thumbbox_imagewrap">
+              <a href="/boards/board_id/{{ mainPhotos[1].id }}">
+                <img
+                  src="{{ mainPhotos[1].image }}"
+                  alt="{{ mainPhotos[1].image }}"
+                />
+                <div>
+                  <p>{{ mainPhotos[1].title }}</p>
+                  <p>{{ mainPhotos[1].content }}</p>
+
                 </div>
                 <div class="header__user">
                     <div class="header__user__display">

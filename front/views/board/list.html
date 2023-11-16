@@ -93,6 +93,12 @@
               class="header__user__profileimage"
             />
           </div>
+          <a href="/auth/logout">
+            <div class="header__user__logout" id="logoutButton">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </div>
+          </a>
+          <p style="display: none">{{userData.id}}</p>
           {% else %}
           <!-- 로그인 상태가 아닐 때 -->
           <a href="/auth/login" class="header__user__name">Login</a>
@@ -111,32 +117,31 @@
         <section class="board">
           <div class="board__category">
             <div class="board__category__button">
-              <a href="/boards/announcement">공지사항</a>
+              <a href="/boards/announcement/1">공지사항</a>
             </div>
             <div class="board__category__button">
-              <a href="/boards/domestic">국내주식</a>
+              <a href="/boards/domestic/1">국내주식</a>
             </div>
             <div class="board__category__button">
-              <a href="/boards/foreign">해외주식</a>
+              <a href="/boards/foreign/1">해외주식</a>
             </div>
             <div class="board__category__button">
-              <a href="/boards/bitcoin">비트코인</a>
+              <a href="/boards/bitcoin/1">비트코인</a>
             </div>
           </div>
           <div class="board__list">
             <div class="board__list__menu">
               <p class="board__list__menu__text"></p>
-              <a href="boards/write"
-                ><button class="board__list__menu__write">
-                  <i class="fa-solid fa-pencil"></i>&nbsp;&nbsp;글쓰기
-                </button></a
-              >
+              <button class="board__list__menu__write">
+                <a href="/boards"
+                  ><i class="fa-solid fa-pencil"></i>&nbsp;&nbsp;글쓰기</a
+                >
+              </button>
             </div>
             <div class="board__list__table">
               <table>
                 <thead>
                   <tr>
-                    <th>카테고리</th>
                     <th>제목</th>
                     <th>작성자</th>
                     <th>좋아요</th>
@@ -144,97 +149,48 @@
                   </tr>
                 </thead>
                 <tbody>
+                  {% for board in data.list[0] %}
                   <tr>
-                    <td>종목토론</td>
-                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
-                    <td>전청조</td>
-                    <td>24</td>
-                    <td>23.11.15</td>
+                    <td>
+                      <a href="/boards/board_id/{{board.id}}"
+                        >{{board.title}}</a
+                      >
+                    </td>
+                    <td>{{board.user.nickname}}</td>
+                    <td>{{board.likesCount}}</td>
+                    <td>{{board.createdAt}}</td>
                   </tr>
-                  <tr>
-                    <td>종목토론</td>
-                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
-                    <td>전청조</td>
-                    <td>24</td>
-                    <td>23.11.15</td>
-                  </tr>
-                  <tr>
-                    <td>종목토론</td>
-                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
-                    <td>전청조</td>
-                    <td>24</td>
-                    <td>23.11.15</td>
-                  </tr>
-                  <tr>
-                    <td>종목토론</td>
-                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
-                    <td>전청조</td>
-                    <td>24</td>
-                    <td>23.11.15</td>
-                  </tr>
-                  <tr>
-                    <td>종목토론</td>
-                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
-                    <td>전청조</td>
-                    <td>24</td>
-                    <td>23.11.15</td>
-                  </tr>
-                  <tr>
-                    <td>종목토론</td>
-                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
-                    <td>전청조</td>
-                    <td>24</td>
-                    <td>23.11.15</td>
-                  </tr>
-                  <tr>
-                    <td>종목토론</td>
-                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
-                    <td>전청조</td>
-                    <td>24</td>
-                    <td>23.11.15</td>
-                  </tr>
-                  <tr>
-                    <td>종목토론</td>
-                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
-                    <td>전청조</td>
-                    <td>24</td>
-                    <td>23.11.15</td>
-                  </tr>
-                  <tr>
-                    <td>종목토론</td>
-                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
-                    <td>전청조</td>
-                    <td>24</td>
-                    <td>23.11.15</td>
-                  </tr>
-                  <tr>
-                    <td>종목토론</td>
-                    <td>워너 브라더스 디스커버리(WBD) 종목분석</td>
-                    <td>전청조</td>
-                    <td>24</td>
-                    <td>23.11.15</td>
-                  </tr>
+                  {% endfor %}
                   <!-- 추가 행은 여기에 -->
                 </tbody>
               </table>
             </div>
             <div class="board__list__pagination">
               <ul class="pagination">
-                <li><button class="prev">이전</button></li>
-                <!-- 페이지 번호는 여기에 동적으로 추가될 것이다 -->
-                <li><button class="next">다음</button></li>
+                <!-- <li><button class="prev">이전</button></li> -->
+                {% for page in data.pages %} {% if page === data.currentPage %}
+                <li><button class="disabled">{{page}}</button></li>
+                {% else %}
+                <li>
+                  <button>
+                    <a href="/boards/{{category}}/{{page}}">{{page}}</a>
+                  </button>
+                </li>
+                {% endif %} {% endfor %}
+                <!-- <li><button class="next">다음</button></li> -->
               </ul>
             </div>
             <div class="board__list__search">
-              <div class="search-bar">
+              <form class="search-bar">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input
                   type="text"
                   id="searchInput"
+                  name="keyword"
                   placeholder="검색어를 입력하세요"
                 />
                 <button id="searchButton">검색</button>
-              </div>
+              </form>
             </div>
           </div>
         </section>
@@ -325,19 +281,19 @@
         <div class="nav__section__title"><p>게시판</p></div>
         <div class="nav__section__content">
           <i class="fa-solid fa-bullhorn"></i>
-          <p><a href="/boards/announcement">공지사항</a></p>
+          <p><a href="/boards/announcement/1">공지사항</a></p>
         </div>
         <div class="nav__section__content">
           <i class="fa-solid fa-money-bill-trend-up"></i>
-          <p><a href="/boards/domestic">국내주식</a></p>
+          <p><a href="/boards/domestic/1">국내주식</a></p>
         </div>
         <div class="nav__section__content">
           <i class="fa-solid fa-flag-usa"></i>
-          <p><a href="/boards/foreign">해외주식</a></p>
+          <p><a href="/boards/foreign/1">해외주식</a></p>
         </div>
         <div class="nav__section__content">
           <i class="fa-brands fa-bitcoin"></i>
-          <p><a href="/boards/bitcoin">비트코인</a></p>
+          <p><a href="/boards/bitcoin/1">비트코인</a></p>
         </div>
       </div>
       <div class="nav__section">
