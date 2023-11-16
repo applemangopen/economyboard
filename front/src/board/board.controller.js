@@ -31,7 +31,7 @@ exports.getBoardPageData = async (req, res, next) => {
   }
 };
 
-exports.getModifyPageData = async (req, res, next) => {
+exports.getWritePageData = async (req, res, next) => {
   try {
     const token = req.cookies ? req.cookies.token : null;
     res.render("board/write.html", { ...token });
@@ -43,7 +43,7 @@ exports.getModifyPageData = async (req, res, next) => {
   }
 };
 
-exports.getBoardModifyPageData = async (req, res, next) => {
+exports.getModifyPageData = async (req, res, next) => {
   try {
     const token = req.cookies ? req.cookies.token : null;
     if (!token) {
@@ -87,7 +87,7 @@ exports.getCategoryPageData = async (req, res) => {
       board.createdAt = board.createdAt.toString().split("T")[0];
     }
     boardList.category = req.params.category.toUpperCase();
-    res.render("board/list.html", boardList);  
+    res.render("board/list.html", boardList);
   } catch (error) {
     console.log("BoardController getCategorypageData Error : " + error.message);
     next(error);
