@@ -86,8 +86,9 @@
                 </div>
             </header>
             <div class="content-wrapper content-wrapper--expanded">
-                <section class="upper">
+                <div class="modify">
                     <form id="modifyForm" enctype="multipart/form-data">
+                        <div class="modify__title">유저 정보 수정</div>
                         <label for="nickname" class="label-large">Nickname:</label>
 
                         <input
@@ -101,7 +102,7 @@
 
                         <p class="label-large">Username: {{ userData.username }}</p>
 
-                        <label for="image label-large">Profile Image URL:</label>
+                        <p class="label-large">Profile Image</p>
 
                         <img
                             id="imagePreview"
@@ -114,9 +115,9 @@
                         <input type="file" id="image" accept="image/*" /><br /><br />
 
                         <button class="button-large" type="submit">저장</button>
-                        <button class="button-large" id="deleteButton">회원 탈퇴</button>
+                        <button class="modify__delete" id="deleteButton">회원 탈퇴</button>
                     </form>
-                </section>
+                </div>
             </div>
 
             <!-- Arrow up -->
