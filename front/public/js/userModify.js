@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             })
             .then((response) => {
                 console.log("업데이트 성공:", response);
+                window.location.href = "/";
                 // 성공 시 처리 로직
             })
             .catch((error) => {

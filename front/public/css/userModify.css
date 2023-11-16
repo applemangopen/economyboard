@@ -854,9 +854,32 @@ aside a i {
 
 /* userModify 부분에 추가한 것. */
 
+.modify {
+    background: white;
+    padding: 5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    height: 40%;
+    margin: auto;
+    min-width: 600px;
+}
+
+.modify__title {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
 .label-large {
-  font-size: 1.5em; /* 크게 표시 */
-  font-weight: bold; /* 글씨 굵게 */
+    font-size: 1.5em; /* 크게 표시 */
+    font-weight: bold; /* 글씨 굵게 */
+    display: block;
+    margin-bottom: 5px;
+}
+
+.label-space {
+    margin-bottom: 2rem;
 }
 
 .input-large {
@@ -867,18 +890,44 @@ aside a i {
 }
 
 .button-large {
-  font-size: 1.2em;
-  padding: 0.5em 1em;
-  margin-top: 1em;
-  background-color: #4caf50; /* 예쁜 버튼 색상 */
-  color: white;
-  border: none;
-  border-radius: 5px; /* 둥근 모서리 */
-  cursor: pointer; /* 커서 스타일 */
+    width: 100%;
+    height: 2rem;
+    padding: 10px;
+    background-color: #5f9ea0;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 2rem;
+    margin-bottom: 0.2rem;
+    transition: all 300ms ease;
+    font-weight: 900;
 }
 
 .button-large:hover {
-  background-color: #45a049; /* 호버 효과 */
+    background-color: #528f8b;
+}
+
+.modify__delete {
+    width: 100%; /* 전체 너비 */
+    height: 2rem;
+    padding: 14px 20px; /* 상하 14px, 좌우 20px 패딩 */
+    border-radius: 4px; /* 둥근 모서리 */
+    background-image: linear-gradient(to right, #00e9be, #55adff); /* 그라디언트 배경 */
+    color: white; /* 텍스트 색상 */
+    font-size: 0.875rem; /* 폰트 크기 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    position: relative;
+    border: none;
+    cursor: pointer;
+    transition: all 300ms ease;
+    font-weight: 900;
+}
+.modify__delete:hover {
+    background-image: linear-gradient(to right, #55adff, #00e9be);
 }
 
 #imagePreview {
