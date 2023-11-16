@@ -14,16 +14,16 @@ router.use("/auth", authRouter);
 // 이걸로 엄청난 시간을 고민을 하게 됐다. 주의!!!
 
 router.get("/boardstats", (req, res) => {
-  res.render("boardstats.html");
+    res.render("boardstats.html");
 });
 router.get("admin", (req, res) => {
-  res.render("admin.html");
+    res.render("admin.html");
 });
 router.get("/chat", (req, res) => {
-  res.render("users.html");
+    res.render("users.html");
 });
 router.get("/help", (req, res) => {
-  res.render("users.html");
+    res.render("users.html");
 });
 
 // router.get("/users/:userId", (req, res) => {
