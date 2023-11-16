@@ -18,7 +18,7 @@ exports.fetchIndexContentData = async (req, res) => {
 
     // axios GET 요청
     const response = await axios.get(`${process.env.DB_API}`, axiosConfig);
-    console.log("index response : ", response);
+    // console.log("index response : ", response);
     const { data } = response.data;
     const { user } = response.data;
     // ===== response된 data를 처리 =====

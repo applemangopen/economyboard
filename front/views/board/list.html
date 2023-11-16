@@ -93,6 +93,12 @@
               class="header__user__profileimage"
             />
           </div>
+          <a href="/auth/logout">
+            <div class="header__user__logout" id="logoutButton">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </div>
+          </a>
+          <p style="display: none">{{userData.id}}</p>
           {% else %}
           <!-- 로그인 상태가 아닐 때 -->
           <a href="/auth/login" class="header__user__name">Login</a>

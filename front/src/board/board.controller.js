@@ -1,26 +1,29 @@
 const boardService = require("./board.service");
+const axios = require("axios");
 
-exports.getBoardPageData = async (req, res) => {
+exports.getBoardPageData = async (req, res, next) => {
   try {
-    const boardId = req.params.boardid;
-    console.log(boardId);
+    const boardId = req.params.boardId;
+    console.log("BoardController getBoardPageData boardId : ", boardId);
 
-    let token;
-    let axiosConfig = {};
-    // req.cookies가 존재하고, token이 있다면 token 값을 설정
-    if (req.cookies && req.cookies["token"]) {
-      token = req.cookies["token"];
-      console.log("token : ", token);
-      // token이 존재할 경우, headers에 Authorization을 추가
-      axiosConfig.headers = {
-        Authorization: `Bearer ${token.token}`,
-      };
-    } else {
-      res.redirect("/auth/login");
+    if (!req.cookies || !req.cookies["token"]) {
+      // 클라이언트 측에서 js를 실행하여 알림을 띄운 후 리디렉션 하도록 하는 로직
+      return res.send(`
+        <script>
+          alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+          window.location.href = "/auth/login";
+        </script>
+      `);
     }
 
-    const boardPageData = await boardService.getBoardData(boardId, axiosConfig);
+    let token = req.cookies["token"];
+    let axiosConfig = {
+      headers: {
+        Authorization: `Bearer ${token.token}`,
+      },
+    };
 
+    const boardPageData = await boardService.getBoardData(boardId, axiosConfig);
     res.render("board/view.html", boardPageData);
   } catch (error) {
     console.log("BoardController getBoardPageData Error : " + error.message);
@@ -28,7 +31,7 @@ exports.getBoardPageData = async (req, res) => {
   }
 };
 
-exports.getWritePageData = async (req, res) => {
+exports.getModifyPageData = async (req, res, next) => {
   try {
     const token = req.cookies ? req.cookies.token : null;
     res.render("board/write.html", { ...token });
@@ -39,7 +42,8 @@ exports.getWritePageData = async (req, res) => {
     );
   }
 };
-exports.getModifyPageData = async (req, res) => {
+
+exports.getBoardModifyPageData = async (req, res, next) => {
   try {
     const token = req.cookies ? req.cookies.token : null;
     if (!token) {
@@ -83,9 +87,41 @@ exports.getCategoryPageData = async (req, res) => {
       board.createdAt = board.createdAt.toString().split("T")[0];
     }
     boardList.category = req.params.category.toUpperCase();
-    res.render("board/list.html", boardList);
+    res.render("board/list.html", boardList);  
   } catch (error) {
     console.log("BoardController getCategorypageData Error : " + error.message);
+    next(error);
+  }
+};
+
+exports.deleteBoardPage = async (req, res, next) => {
+  try {
+    const boardId = req.params.boardId;
+    let token = req.cookies["token"];
+    let axiosConfig = {
+      headers: {
+        Authorization: `Bearer ${token.token}`,
+      },
+    };
+
+    console.log("BoardController deleteBoardPage axiosConfig : ", axiosConfig);
+    console.log("BoardController deleteBoardPage boardId : ", boardId);
+
+    const response = await axios.delete(
+      `${process.env.DB_API}/boards/board_id/${boardId}`,
+      axiosConfig
+    );
+
+    console.log("BoardController deleteBoardPage response : ", response);
+
+    // 여기서 response.data.affected가 1이라면 삭제 성공으로 간주
+    if (response.data && response.data.affected === 1) {
+      return res.json({ isDeleted: true });
+    } else {
+      return res.json({ isDeleted: false });
+    }
+  } catch (error) {
+    console.log("BoardController deleteBoardPage Error : " + error.message);
     next(error);
   }
 };

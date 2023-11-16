@@ -92,6 +92,11 @@
               class="header__user__profileimage"
             />
           </div>
+          <a href="/auth/logout">
+            <div class="header__user__logout" id="logoutButton">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </div>
+          </a>
           <p style="display: none">{{userData.id}}</p>
           {% else %}
           <!-- 로그인 상태가 아닐 때 -->
@@ -124,10 +129,12 @@
             </div>
           </div> -->
           <div class="view__buttons">
-            <a href="#" class="view__buttons_button"
+            <a
+              href="{{id}}/user_id/{{userData.id}}"
+              class="view__buttons_button"
               ><i class="fa-solid fa-pencil"></i>&nbsp;&nbsp;글 수정</a
             >
-            <a href="#" class="view__buttons_button"
+            <a href="#" class="view__buttons_button view__buttons__delete"
               ><i class="fa-solid fa-trash-can"></i>&nbsp;&nbsp;글 삭제</a
             >
           </div>
@@ -294,19 +301,19 @@
         <div class="nav__section__title"><p>게시판</p></div>
         <div class="nav__section__content">
           <i class="fa-solid fa-bullhorn"></i>
-          <p><a href="/boards/announcement">공지사항</a></p>
+          <p><a href="/boards/announcement/1">공지사항</a></p>
         </div>
         <div class="nav__section__content">
           <i class="fa-solid fa-money-bill-trend-up"></i>
-          <p><a href="/boards/domestic">국내주식</a></p>
+          <p><a href="/boards/domestic/1">국내주식</a></p>
         </div>
         <div class="nav__section__content">
           <i class="fa-solid fa-flag-usa"></i>
-          <p><a href="/boards/foreign">해외주식</a></p>
+          <p><a href="/boards/foreign/1">해외주식</a></p>
         </div>
         <div class="nav__section__content">
           <i class="fa-brands fa-bitcoin"></i>
-          <p><a href="/boards/bitcoin">비트코인</a></p>
+          <p><a href="/boards/bitcoin/1">비트코인</a></p>
         </div>
       </div>
       <div class="nav__section">
