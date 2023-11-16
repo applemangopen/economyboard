@@ -37,7 +37,7 @@ exports.getBoardData = async (boardId, axiosConfig) => {
       },
     };
 
-    console.log("processedData : ", processedData);
+    console.log("BoardService getBoardData processedData : ", processedData);
     return processedData;
   } catch (error) {
     console.log("BoardService getBoardData Error : " + error.message);

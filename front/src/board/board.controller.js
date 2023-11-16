@@ -33,8 +33,31 @@ exports.getBoardPageData = async (req, res, next) => {
 
 exports.getWritePageData = async (req, res, next) => {
   try {
-    const token = req.cookies ? req.cookies.token : null;
-    res.render("board/write.html", { ...token });
+    // ===== 사용자 cookie 받아와서, user객체 정보 받아오기 =====
+    let token;
+    let axiosConfig = {};
+
+    // req.cookies가 존재하고, token이 있다면 token 값을 설정
+    if (req.cookies && req.cookies["token"]) {
+      token = req.cookies["token"];
+      // console.log("token : ", token);
+      // token이 존재할 경우, headers에 Authorization을 추가
+      axiosConfig.headers = {
+        Authorization: `Bearer ${token.token}`,
+      };
+    }
+
+    // axios GET 요청
+    const responseData = await axios.get(`${process.env.DB_API}`, axiosConfig);
+    // console.log("index response : ", response);
+    const { user } = responseData.data;
+    user.image = `${process.env.DB_API}${user.image}`;
+
+    // console.log(user);
+    // =========================================================
+
+    token = req.cookies ? req.cookies.token : null;
+    res.render("board/write.html", { ...token, userData: user });
   } catch (error) {
     console.log("BoardController getBoardPageData Error : " + error.message);
     throw new Error(
@@ -63,6 +86,7 @@ exports.getModifyPageData = async (req, res, next) => {
     const responseData = await axios.get(`${process.env.DB_API}`, axiosConfig);
     // console.log("index response : ", response);
     const { user } = responseData.data;
+    user.image = `${process.env.DB_API}${user.image}`;
 
     // console.log(user);
     // =========================================================
@@ -80,7 +104,12 @@ exports.getModifyPageData = async (req, res, next) => {
       }
     );
     const board = await response.json();
-    res.render("board/modify.html", { ...board, ...token });
+    // console.log(" { ...board, ...token, userData: user } : ", {
+    //   ...board,
+    //   ...token,
+    //   userData: user,
+    // });
+    res.render("board/modify.html", { ...board, ...token, userData: user });
   } catch (error) {
     console.log("BoardController getModifyPageData Error : " + error.message);
     next(error);

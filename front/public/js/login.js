@@ -1,4 +1,4 @@
-// ----- 페이지 내 JS 요소 -----
+// ===== Login =====
 document.addEventListener("DOMContentLoaded", function () {
   // Nav 토글버튼 클릭
   const navToggle = document.getElementById("navToggle");
@@ -61,54 +61,47 @@ document.addEventListener("DOMContentLoaded", function () {
     activeIndex = (activeIndex - 1 + items.length) % items.length;
   }
   setInterval(moveItemsUp, 3000);
+
+  // ===== Login =====
+
+  // 로그인 이벤트 핸들러
+  const loginForm = document.getElementById("login-form");
+  loginForm.addEventListener("submit", handleLoginSubmit);
 });
 
-// ===== Login =====
-document
-  .getElementById("login-form")
-  .addEventListener("submit", async function (e) {
-    e.preventDefault(); // 폼 제출의 기본 동작을 막음
-    try {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+async function handleLoginSubmit(e) {
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-      const response = await axios.post("/auth/login", {
-        username: email,
-        password: password,
-      });
-      if (response.data.success) {
-        window.location.href = response.data.redirectUrl;
-      }
-      // console.log("login js : ", response);
-    } catch (error) {
-      console.error("로그인 실패:", error);
-    }
+  try {
+    const response = await login(email, password);
+    onLoginSuccess(response.data);
+  } catch (error) {
+    onLoginError(error);
+  }
+}
+
+async function login(email, password) {
+  return await axios.post("/auth/login", {
+    username: email,
+    password: password,
   });
+}
 
-document
-  .getElementById("login-form")
-  .addEventListener("submit", async function (e) {
-    e.preventDefault();
-    try {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+function onLoginSuccess(data) {
+  if (data.success) {
+    const successMessage = document.getElementById("login-success-message");
+    successMessage.style.display = "block";
+    setTimeout(() => {
+      window.location.href = data.redirectUrl;
+    }, 3000);
+  }
+}
 
-      const response = await axios.post("/auth/login", {
-        username: email,
-        password: password,
-      });
-
-      if (response.data.success) {
-        // 로그인 성공 메시지 표시
-        const successMessage = document.getElementById("login-success-message");
-        successMessage.style.display = "block";
-
-        // 3초 후 메인 페이지로 리다이렉트
-        setTimeout(() => {
-          window.location.href = response.data.redirectUrl;
-        }, 3500);
-      }
-    } catch (error) {
-      console.error("로그인 실패:", error);
-    }
-  });
+function onLoginError(error) {
+  console.error("로그인 실패:", error);
+  // 사용자에게 실패 메시지 표시
+  const errorMessage = document.getElementById("login-error-message");
+  errorMessage.style.display = "block";
+}
