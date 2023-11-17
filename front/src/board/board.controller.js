@@ -4,7 +4,7 @@ const axios = require("axios");
 exports.getBoardPageData = async (req, res, next) => {
   try {
     const boardId = req.params.boardId;
-    console.log("BoardController getBoardPageData boardId : ", boardId);
+    // console.log("BoardController getBoardPageData boardId : ", boardId);
 
     if (!req.cookies || !req.cookies["token"]) {
       // 클라이언트 측에서 js를 실행하여 알림을 띄운 후 리디렉션 하도록 하는 로직
@@ -213,6 +213,101 @@ exports.deleteBoardPage = async (req, res, next) => {
     }
   } catch (error) {
     console.log("BoardController deleteBoardPage Error : " + error.message);
+    next(error);
+  }
+};
+
+exports.postLikePage = async (req, res, next) => {
+  try {
+    const boardId = req.params.boardId;
+    const userId = req.params.userId;
+    console.log("boardId와 userId : ", boardId, userId);
+    // ===== 사용자 cookie 받아와서, user객체 정보 받아오기 =====
+    let token;
+    let axiosConfig = {};
+
+    // req.cookies가 존재하고, token이 있다면 token 값을 설정
+    if (req.cookies && req.cookies["token"]) {
+      token = req.cookies["token"];
+      // console.log("token : ", token);
+      // token이 존재할 경우, headers에 Authorization을 추가
+      axiosConfig.headers = {
+        Authorization: `Bearer ${token.token}`,
+      };
+    }
+
+    console.log("axiosConfig : ", axiosConfig);
+    // axios 요청
+    // const responseData = await axios.get(`${process.env.DB_API}/`, axiosConfig);
+    // console.log("index response : ", response);
+    // const { user } = responseData.data;
+    // console.log("user : ", user);
+
+    // console.log(user);
+    // =========================================================
+    // 요청 URL을 변수에 저장하고 확인
+    const requestUrl = `${process.env.DB_API}/boards/board_id/${boardId}/user_id/${userId}`;
+    console.log("요청 URL: ", requestUrl);
+
+    // axios POST 요청
+    const response = await axios.post(requestUrl, {}, axiosConfig);
+
+    // 로그로 응답 확인
+    console.log("응답: ", response.status, response.statusText);
+    if (response.status === 201) {
+      res.status(201).json({ message: response.statusText });
+    } else {
+      res.status(400).send();
+    }
+  } catch (error) {
+    console.log("BoardController postLikePage Error : " + error.message);
+    next(error);
+  }
+};
+exports.deleteDislikePage = async (req, res, next) => {
+  try {
+    const boardId = req.params.boardId;
+    const userId = req.params.userId;
+    console.log("boardId와 userId : ", boardId, userId);
+    // ===== 사용자 cookie 받아와서, user객체 정보 받아오기 =====
+    let token;
+    let axiosConfig = {};
+
+    // req.cookies가 존재하고, token이 있다면 token 값을 설정
+    if (req.cookies && req.cookies["token"]) {
+      token = req.cookies["token"];
+      // console.log("token : ", token);
+      // token이 존재할 경우, headers에 Authorization을 추가
+      axiosConfig.headers = {
+        Authorization: `Bearer ${token.token}`,
+      };
+    }
+
+    console.log("axiosConfig : ", axiosConfig);
+    // axios 요청
+    // const responseData = await axios.get(`${process.env.DB_API}/`, axiosConfig);
+    // console.log("index response : ", response);
+    // const { user } = responseData.data;
+    // console.log("user : ", user);
+
+    // console.log(user);
+    // =========================================================
+    // 요청 URL을 변수에 저장하고 확인
+    const requestUrl = `${process.env.DB_API}/boards/board_id/${boardId}/user_id/${userId}`;
+    console.log("요청 URL: ", requestUrl);
+
+    // axios POST 요청
+    const response = await axios.delete(requestUrl, axiosConfig);
+
+    // 로그로 응답 확인
+    console.log("응답: ", response.data);
+    if (response.data.affected === 1) {
+      res.status(201).json({ message: "dislike_successed" });
+    } else {
+      res.status(400).send();
+    }
+  } catch (error) {
+    console.log("BoardController deleteDislikePage Error : " + error.message);
     next(error);
   }
 };
