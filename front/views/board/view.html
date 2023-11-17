@@ -135,7 +135,6 @@
                                     alt="Default Image"
                                 />
                                 {% endif %}
-
                                 <!-- {% if userData.image.startsWith('http://13.209.19.175:4000//') %}
                                 <img
                                     class="viewpage__titlebar__info__profileimg"
@@ -219,78 +218,171 @@
                         <span class="footer-item">통신판매업 신고번호: 제 2022-성남분당A-0689호</span>
 
                         <a href="/policy/service" target="_blank" rel="noreferrer" class="footer-link">이용약관</a>
+            <a
+              href="/policy/privacy"
+              target="_blank"
+              rel="noreferrer"
+              class="footer-link"
+              >개인정보처리방침</a
+            >
+          </div>
+        </footer>
+      </div>
+    </main>
+    <!-- Navbar -->
+    <nav class="nav nav--">
+      <div class="nav__logo">
+        <div class="nav__logo__container">
+          <a href="/">
+            <img
+              class="nav__logo__img"
+              src="/images/BullHubLogo_Circle.png"
+              alt="BullHubLogo"
+            />
+          </a>
+          <p><a href="/">BullHub</a></p>
+        </div>
+        <button id="navToggle" class="nav--toggle">
+          <i class="fa-solid fa-angles-left"></i>
+          <i class="fa-solid fa-angles-right"></i>
+        </button>
+      </div>
+      <div class="nav__section">
+        <div class="nav__section__title"><p>관리자</p></div>
+        <div class="nav__section__content">
+          <i class="fa-regular fa-clipboard"></i>
+          <p><a href="/boardstats">게시물 통계</a></p>
+        </div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-users"></i>
+          <p><a href="/admin">회원 정보 통계</a></p>
+        </div>
+      </div>
+      <div class="nav__section">
+        <div class="nav__section__title"><p>회원</p></div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-user-gear"></i>
+          <p class="nav__section__user">
+            <a href="/users/{{userData.id}}">회원 정보 수정 & 조회</a>
+          </p>
+        </div>
+      </div>
+      <div class="nav__section">
+        <div class="nav__section__title"><p>게시판</p></div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-bullhorn"></i>
+          <p><a href="/boards/announcement/1">공지사항</a></p>
+        </div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-money-bill-trend-up"></i>
+          <p><a href="/boards/domestic/1">국내주식</a></p>
+        </div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-flag-usa"></i>
+          <p><a href="/boards/foreign/1">해외주식</a></p>
+        </div>
+        <div class="nav__section__content">
+          <i class="fa-brands fa-bitcoin"></i>
+          <p><a href="/boards/bitcoin/1">비트코인</a></p>
+        </div>
+      </div>
+      <div class="nav__section">
+        <div class="nav__section__title"><p>채팅</p></div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-circle-question"></i>
+          <p><a href="/help">관리자 1:1 문의</a></p>
+        </div>
+        <div class="nav__section__content">
+          <i class="fa-solid fa-comments"></i>
+          <p><a href="/chat">회원 소통방</a></p>
+        </div>
+      </div>
+    </nav>
+  </body>
+  <script>
+    const token = document.querySelector(".token").value;
 
-                        <a href="/policy/privacy" target="_blank" rel="noreferrer" class="footer-link"
-                            >개인정보처리방침</a
-                        >
-                    </div>
-                </footer>
-            </div>
-        </main>
-        <!-- Navbar -->
-        <nav class="nav nav--">
-            <div class="nav__logo">
-                <div class="nav__logo__container">
-                    <a href="/">
-                        <img class="nav__logo__img" src="/images/BullHubLogo_Circle.png" alt="BullHubLogo" />
-                    </a>
-                    <p><a href="/">BullHub</a></p>
-                </div>
-                <button id="navToggle" class="nav--toggle">
-                    <i class="fa-solid fa-angles-left"></i>
-                    <i class="fa-solid fa-angles-right"></i>
-                </button>
-            </div>
-            <div class="nav__section">
-                <div class="nav__section__title"><p>관리자</p></div>
-                <div class="nav__section__content">
-                    <i class="fa-regular fa-clipboard"></i>
-                    <p><a href="/boardstats">게시물 통계</a></p>
-                </div>
-                <div class="nav__section__content">
-                    <i class="fa-solid fa-users"></i>
-                    <p><a href="/admin">회원 정보 통계</a></p>
-                </div>
-            </div>
-            <div class="nav__section">
-                <div class="nav__section__title"><p>회원</p></div>
-                <div class="nav__section__content">
-                    <i class="fa-solid fa-user-gear"></i>
-                    <p class="nav__section__user">
-                        <a href="/users/{{userData.id}}">회원 정보 수정 & 조회</a>
-                    </p>
-                </div>
-            </div>
-            <div class="nav__section">
-                <div class="nav__section__title"><p>게시판</p></div>
-                <div class="nav__section__content">
-                    <i class="fa-solid fa-bullhorn"></i>
-                    <p><a href="/boards/announcement/1">공지사항</a></p>
-                </div>
-                <div class="nav__section__content">
-                    <i class="fa-solid fa-money-bill-trend-up"></i>
-                    <p><a href="/boards/domestic/1">국내주식</a></p>
-                </div>
-                <div class="nav__section__content">
-                    <i class="fa-solid fa-flag-usa"></i>
-                    <p><a href="/boards/foreign/1">해외주식</a></p>
-                </div>
-                <div class="nav__section__content">
-                    <i class="fa-brands fa-bitcoin"></i>
-                    <p><a href="/boards/bitcoin/1">비트코인</a></p>
-                </div>
-            </div>
-            <div class="nav__section">
-                <div class="nav__section__title"><p>채팅</p></div>
-                <div class="nav__section__content">
-                    <i class="fa-solid fa-circle-question"></i>
-                    <p><a href="/help">관리자 1:1 문의</a></p>
-                </div>
-                <div class="nav__section__content">
-                    <i class="fa-solid fa-comments"></i>
-                    <p><a href="/chat">회원 소통방</a></p>
-                </div>
-            </div>
-        </nav>
-    </body>
+    async function writeComment() {
+      const content = document.querySelector(".content").value;
+
+      if (!content) {
+        alert("댓글을 입력해 주세요.");
+      }
+
+      const response = await fetch(
+        `http://13.209.19.175:4000/boards/board_id/{{id}}`,
+        {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ content }),
+        }
+      );
+
+      location.href = `/boards/board_id/{{id}}`;
+    }
+
+    function setModify(id) {
+      const modifyInput = document.querySelector(`.modify-input-${id}`);
+      const modifyButton = document.querySelector(`.modify-button-${id}`);
+
+      if (!modifyInput.classList.contains("show")) {
+        modifyInput.classList.add("show");
+        modifyButton.classList.add("show");
+      } else {
+        modifyInput.classList.remove("show");
+        modifyButton.classList.remove("show");
+      }
+    }
+
+    async function modify(id) {
+      const modifyInput = document.querySelector(`.modify-input-${id}`);
+
+      const response = await fetch(
+        `http://13.209.19.175:4000/boards/board_id/{{id}}/comment_id/${id}`,
+        {
+          method: "put",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ content: modifyInput.value }),
+        }
+      );
+
+      location.href = `/boards/board_id/{{id}}`;
+    }
+
+    async function drop(id) {
+      const response = await fetch(
+        `http://13.209.19.175:4000/boards/board_id/{{id}}/comment_id/${id}`,
+        {
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      location.href = `/boards/board_id/{{id}}`;
+    }
+  </script>
+  <style>
+    a {
+      cursor: pointer;
+    }
+    .modify-button {
+      display: none;
+    }
+    .modify-input {
+      outline: none;
+      border: none;
+    }
+    .show {
+      display: inline-block;
+      border: 1px solid #000;
+    }
+  </style>
 </html>
