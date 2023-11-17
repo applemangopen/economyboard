@@ -476,13 +476,12 @@ a:active {
   /* display: none; */
 }
 
-.upper_thumbbox_imagewrap div {
+.upper_thumbbox_imagewrap div p {
   position: absolute;
   bottom: 0.2rem; /* 기본값을 0으로 설정합니다. */
   padding: 0.4rem;
   background-color: rgba(128, 128, 128, 0.9);
   width: 100%;
-  /* border-radius: 0.5rem; */
 }
 
 .upper_thumbbox_imagewrap div p:nth-child(1) {
@@ -496,6 +495,17 @@ a:active {
   font-size: 0.9rem;
   margin: 0.3rem;
   color: rgb(18, 18, 18);
+  /* 글 줄임 css */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* 최대 2줄까지 표시 */
+  overflow: hidden; /* 넘치는 내용 숨김 */
+  text-overflow: ellipsis; /* 넘치는 텍스트를 말줄임표로 대체 */
+  line-height: 1.2em; /* 줄 간격 조절 */
+  max-height: 2.4em; /* line-height * line-clamp 값으로 최대 높이 설정 */
+  /* margin: 5px 0;  */
+  white-space: normal; /* 여러 줄 텍스트 표시 */
+  /* text-align: center;  */
 }
 
 /* Lower-left */
