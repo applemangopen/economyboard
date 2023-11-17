@@ -138,6 +138,7 @@
                 name="image"
                 style="display: none"
               />
+              {% if userData.role === ADMIN %}
               <label
                 ><input
                   type="radio"
@@ -146,6 +147,7 @@
                 />
                 공지사항</label
               >
+              {% endif %}
               <label
                 ><input
                   type="radio"
