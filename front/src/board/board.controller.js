@@ -24,7 +24,7 @@ exports.getBoardPageData = async (req, res, next) => {
     };
 
     const boardPageData = await boardService.getBoardData(boardId, axiosConfig);
-    res.render("board/view.html", boardPageData);
+    res.render("board/view.html", { ...boardPageData, ...token });
   } catch (error) {
     console.log("BoardController getBoardPageData Error : " + error.message);
     next(error);
