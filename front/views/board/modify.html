@@ -121,7 +121,7 @@
                 type="text"
                 name="title"
                 placeholder="제목"
-                value="{{data.title}}"
+                value=""
               />
               <textarea
                 class="content"
@@ -172,15 +172,9 @@
               >
 
               <input id="upload" type="file" name="file" />
-              {% if data.image %}
-              <img
-                class="img"
-                src="http://13.209.19.175:4000{{data.image}}"
-                alt=""
-              />
-              {% else %}
+
               <img class="img" src="" alt="" />
-              {% endif %}
+
               <button class="submit" type="submit">작성하기</button>
             </form>
             <form
@@ -191,21 +185,15 @@
             <input
               class="board-id"
               type="text"
-              value="{{data.id}}"
+              value=""
               style="display: none"
-            />
-            <input
-              class="token"
-              type="text"
-              style="display: none"
-              value="{{token}}"
             />
             <input class="image" type="text" style="display: none" value="" />
             <input
               class="category"
               type="text"
               style="display: none"
-              value="{{data.category}}"
+              value=""
             />
           </div>
         </section>
@@ -334,16 +322,24 @@
     const content = document.querySelector(".content");
     const image = document.querySelector(".image");
     const category = document.querySelector(".category");
-    const token = document.querySelector(".token").value;
-    const boardId = document.querySelector(".board-id").value;
+    const token = "{{token}}";
+    const boardId = "{{data.id}}";
+
+    title.value = "{{data.title}}";
+    content.value = "{{data.content}}";
+    category.value = "{{data.category}}";
+
+    let imageData = "{{data.image}}"
+      ? "http://13.209.19.175:4000{{data.image}}"
+      : null;
 
     function setCategory(categoryData) {
       category.value = categoryData;
     }
 
-    if (img.src) {
-      image.value = img.src;
-    }
+    console.log(imageData);
+    image.value = imageData;
+
     inputImage.addEventListener("change", async (e) => {
       e.preventDefault();
       const imageData = new FormData(imageWrapper);
@@ -370,6 +366,7 @@
         category: category.value,
         image: image.value ? image.value : null,
       };
+      console.log(body);
       const response = await fetch(
         `http://13.209.19.175:4000/boards/board_id/${boardId}`,
         {
