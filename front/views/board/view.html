@@ -1,120 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{title}} | BullHub</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="icon"
-      href="/images/BullHubLogo_Circle_favicon.ico"
-      type="image/x-icon"
-    />
-    <!-- FontAwesome Kits -->
-    <script
-      src="https://kit.fontawesome.com/a6fe98d160.js"
-      crossorigin="anonymous"
-      defer
-    ></script>
-    <!-- CSS, JS, Axios -->
-    <script src="/js/view.js" defer></script>
-    <link rel="stylesheet" href="/css/view.css" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  </head>
-  <body>
-    <main>
-      <!-- Header -->
-      <header class="header">
-        <div class="header__search">
-          <input
-            class="search-input"
-            type="text"
-            placeholder="종목명, 티커 검색"
-            autocomplete="off"
-            aria-autocomplete="list"
-            aria-controls="search-menu"
-            aria-labelledby="search-label"
-          />
-        </div>
-        <div class="header__user">
-          <div class="header__user__display">
-            <div id="stock-slider" class="stock-slider">
-              <div class="stock-item">
-                Apple $182.41 &nbsp; <span style="color: #37d767">3.21%</span>
-                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
-              </div>
-              <div class="stock-item">
-                Walt Disney $90.34 &nbsp;
-                <span style="color: #fd2617">0.85%</span>
-                <i class="fa-solid fa-arrow-down" style="color: #fd2617"></i>
-              </div>
-              <div class="stock-item">
-                Intel $37.80 &nbsp; <span style="color: #37d767">1.19%</span>
-                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
-              </div>
-              <div class="stock-item">
-                Microsoft $360.69 &nbsp;
-                <span style="color: #fd2617">0.32%</span>
-                <i class="fa-solid fa-arrow-down" style="color: #fd2617"></i>
-              </div>
-              <div class="stock-item">
-                Cisco $52.00 &nbsp; <span style="color: #fd2617">0.56%</span>
-                <i class="fa-solid fa-arrow-down" style="color: #fd2617"></i>
-              </div>
-              <div class="stock-item">
-                Verizon $35.62 &nbsp; <span style="color: #37d767">1.45%</span>
-                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
-              </div>
-              <div class="stock-item">
-                Chevron $141.94 &nbsp; <span style="color: #37d767">2.17%</span>
-                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
-              </div>
-            </div>
-          </div>
-          <div class="header__user__notification">
-            <i class="fa-solid fa-bell"></i>
-          </div>
-          {% if userData.id %}
-          <!-- 로그인 상태일 때 -->
-          <a href="/users" class="header__user__name"
-            >{{ userData.nickname }}</a
-          >
-          <div class="header__user__profile">
-            <img
-              src="{{ userData.image }}"
-              alt="profile image"
-              class="header__user__profileimage"
-            />
-          </div>
-          <a href="/auth/logout">
-            <div class="header__user__logout" id="logoutButton">
-              <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            </div>
-          </a>
-          <p style="display: none">{{userData.id}}</p>
-          {% else %}
-          <!-- 로그인 상태가 아닐 때 -->
-          <a href="/auth/login" class="header__user__name">Login</a>
-          <div class="header__user__profile">
-            <img
-              src="/images/default_profile.png"
-              alt="default image"
-              class="header__user__profileimage"
-            />
-          </div>
-          {% endif %}
-        </div>
-      </header>
-      <!-- Content -->
-      <div class="content-wrapper content-wrapper--expanded">
-        <section class="view">
-          <!-- <div class="board__category">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{title}} | BullHub</title>
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="icon" href="/images/BullHubLogo_Circle_favicon.ico" type="image/x-icon" />
+        <!-- FontAwesome Kits -->
+        <script src="https://kit.fontawesome.com/a6fe98d160.js" crossorigin="anonymous" defer></script>
+        <!-- CSS, JS, Axios -->
+        <script src="/js/view.js" defer></script>
+        <link rel="stylesheet" href="/css/view.css" />
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <main>
+            <!-- Header -->
+            <header class="header">
+                <div class="header__search">
+                    <input
+                        class="search-input"
+                        type="text"
+                        placeholder="종목명, 티커 검색"
+                        autocomplete="off"
+                        aria-autocomplete="list"
+                        aria-controls="search-menu"
+                        aria-labelledby="search-label"
+                    />
+                </div>
+                <div class="header__user">
+                    <div class="header__user__display">
+                        <div id="stock-slider" class="stock-slider">
+                            <div class="stock-item">
+                                Apple $182.41 &nbsp; <span style="color: #37d767">3.21%</span>
+                                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+                            </div>
+                            <div class="stock-item">
+                                Walt Disney $90.34 &nbsp;
+                                <span style="color: #fd2617">0.85%</span>
+                                <i class="fa-solid fa-arrow-down" style="color: #fd2617"></i>
+                            </div>
+                            <div class="stock-item">
+                                Intel $37.80 &nbsp; <span style="color: #37d767">1.19%</span>
+                                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+                            </div>
+                            <div class="stock-item">
+                                Microsoft $360.69 &nbsp;
+                                <span style="color: #fd2617">0.32%</span>
+                                <i class="fa-solid fa-arrow-down" style="color: #fd2617"></i>
+                            </div>
+                            <div class="stock-item">
+                                Cisco $52.00 &nbsp; <span style="color: #fd2617">0.56%</span>
+                                <i class="fa-solid fa-arrow-down" style="color: #fd2617"></i>
+                            </div>
+                            <div class="stock-item">
+                                Verizon $35.62 &nbsp; <span style="color: #37d767">1.45%</span>
+                                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+                            </div>
+                            <div class="stock-item">
+                                Chevron $141.94 &nbsp; <span style="color: #37d767">2.17%</span>
+                                <i class="fa-solid fa-arrow-up" style="color: #37d767"> </i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header__user__notification">
+                        <i class="fa-solid fa-bell"></i>
+                    </div>
+                    {% if userData.id %}
+                    <!-- 로그인 상태일 때 -->
+                    <a href="/users" class="header__user__name">{{ userData.nickname }}</a>
+                    <div class="header__user__profile">
+                        <img src="{{ userData.image }}" alt="profile image" class="header__user__profileimage" />
+                    </div>
+                    <a href="/auth/logout">
+                        <div class="header__user__logout" id="logoutButton">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        </div>
+                    </a>
+                    <p style="display: none">{{userData.id}}</p>
+                    {% else %}
+                    <!-- 로그인 상태가 아닐 때 -->
+                    <a href="/auth/login" class="header__user__name">Login</a>
+                    <div class="header__user__profile">
+                        <img src="/images/default_profile.png" alt="default image" class="header__user__profileimage" />
+                    </div>
+                    {% endif %}
+                </div>
+            </header>
+            <!-- Content -->
+            <div class="content-wrapper content-wrapper--expanded">
+                <section class="view">
+                    <!-- <div class="board__category">
             <div class="board__category__button">
               <a href="/boards/announcement">공지사항</a>
             </div>
@@ -128,159 +110,114 @@
               <a href="/boards/bitcoin">비트코인</a>
             </div>
           </div> -->
-          <div class="view__buttons">
-            <a
-              href="{{id}}/user_id/{{userData.id}}"
-              class="view__buttons_button"
-              ><i class="fa-solid fa-pencil"></i>&nbsp;&nbsp;글 수정</a
-            >
-            <a href="#" class="view__buttons_button view__buttons__delete"
-              ><i class="fa-solid fa-trash-can"></i>&nbsp;&nbsp;글 삭제</a
-            >
-          </div>
-          <div class="viewpage">
-            <div class="viewpage__titlebar">
-              <div class="viewpage__titlebar__title">
-                {{title}}&nbsp;&nbsp;({{commentsCount}})
-              </div>
-              <div class="viewpage__titlebar__info">
-                {% if profileImage.startsWith('http://13.125.55.102:4000/') %}
-                <img
-                  class="viewpage__titlebar__info__profileimg"
-                  src="{{ profileImage }}"
-                  alt="Profile Image"
-                />
-                {% else %}
-                <img
-                  class="viewpage__titlebar__info__profileimg"
-                  src="/images/default_profile.png"
-                  alt="Default Image"
-                />
-                {% endif %}
-                <p class="viewpage__titlebar__info__writer">{{writer}}</p>
-                <p>|</p>
-                <p class="viewpage__titlebar__info__createdAt">
-                  {{createdAt}} | 조회수 : {{viewsCount}} | 좋아요 :
-                  {{likesCount}} | 카테고리 : {% if category == 'announcement'
-                  %} 공지사항 {% elif category == 'domestic' %} 국내주식 {% elif
-                  category == 'foreign' %} 해외주식 {% elif category ==
-                  'bitcoin' %} 비트코인 {% else %} 기타 카테고리 {% endif %}
-                </p>
-              </div>
-            </div>
-            <div class="viewpage__content">
-              {% if image.startsWith('http://13.209.19.175:4000/public/boards/')
-              %}
-              <img
-                src="{{ image }}"
-                alt="Board Image"
-                class="viewpage__content__image"
-              />
-              {% endif %} {{content}}
-            </div>
-            <div class="viewpage__likes">
-              <a
-                href="#"
-                class="view__buttons_button view__buttons_button__bookmark"
-                ><i class="fa-solid fa-book-bookmark"></i>&nbsp;&nbsp;책갈피</a
-              >
-              <a
-                href="#"
-                class="view__buttons_button view__buttons_button__like"
-                ><i class="fa-regular fa-thumbs-up"></i>&nbsp;&nbsp;Like!</a
-              >
+                    <div class="view__buttons">
+                        <a href="{{id}}/user_id/{{userData.id}}" class="view__buttons_button"
+                            ><i class="fa-solid fa-pencil"></i>&nbsp;&nbsp;글 수정</a
+                        >
+                        <a href="#" class="view__buttons_button view__buttons__delete"
+                            ><i class="fa-solid fa-trash-can"></i>&nbsp;&nbsp;글 삭제</a
+                        >
+                    </div>
+                    <div class="viewpage">
+                        <div class="viewpage__titlebar">
+                            <div class="viewpage__titlebar__title">{{title}}&nbsp;&nbsp;({{commentsCount}})</div>
+                            <div class="viewpage__titlebar__info">
+                                {% if profileImage != 'http://13.209.19.175:4000null' %}
+                                <img
+                                    class="viewpage__titlebar__info__profileimg"
+                                    src="{{ profileImage }}"
+                                    alt="Profile Image"
+                                />
+                                {% else %}
+                                <img
+                                    class="viewpage__titlebar__info__profileimg"
+                                    src="/images/default_profile.png"
+                                    alt="Default Image"
+                                />
+                                {% endif %}
+                                <!-- {% if userData.image.startsWith('http://13.209.19.175:4000//') %}
+                                <img
+                                    class="viewpage__titlebar__info__profileimg"
+                                    src="{{ userData.image }}"
+                                    alt="Profile Image"
+                                />
+                                {% else %}
+                                <img
+                                    class="viewpage__titlebar__info__profileimg"
+                                    src="/images/default_profile.png"
+                                    alt="Default Image"
+                                />
+                                {% endif %} -->
+                                <p class="viewpage__titlebar__info__writer">{{writer}}</p>
+                                <p>|</p>
+                                <p class="viewpage__titlebar__info__createdAt">
+                                    <span id="createdAt">{{createdAt}}</span> | 조회수 : {{viewsCount}} | 좋아요 :
+                                    {{likesCount}} | 카테고리 : {% if category == 'announcement' %} 공지사항 {% elif
+                                    category == 'domestic' %} 국내주식 {% elif category == 'foreign' %} 해외주식 {% elif
+                                    category == 'bitcoin' %} 비트코인 {% else %} 기타 카테고리 {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="viewpage__content">
+                            {% if image.startsWith('http://13.209.19.175:4000/public/boards/') %}
 
-              <a
-                href="#"
-                class="view__buttons_button view__buttons_button__dislike"
-                ><i class="fa-regular fa-thumbs-down"></i>&nbsp;&nbsp;Dislike</a
-              >
-            </div>
-          </div>
-        </section>
-        <div class="viewbuttons">
-          <div class="viewbuttons__left">
-            <a href="/boards/{{category}}/1" class="view__buttons_button"
-              ><i class="fa-solid fa-clipboard"></i>&nbsp;&nbsp;목록보기</a
-            >
-            <a href="/boards/board_id/{{id - 1}}" class="view__buttons_button"
-              ><i class="fa-regular fa-circle-down"></i>&nbsp;&nbsp;이전 글</a
-            >
-          </div>
-          <p class="viewbuttons__right">
-            <a href="/boards/board_id/{{id + 1}}" class="view__buttons_button"
-              ><i class="fa-regular fa-circle-up"></i>&nbsp;&nbsp;다음 글</a
-            >
-          </p>
-        </div>
-        <section class="comments">
-          <div class="comment">
-            <input
-              type="text"
-              class="content"
-              name="content"
-              placeholder="댓글을 입력해주세요"
-            />
-            <button type="submit" onclick="writeComment()">작성하기</button>
-          </div>
-          {% for comment in comments %} {{comment.user.nickname}} {% if
-          userData.id === comment.user.id %}
-          <a onclick="setModify('{{comment.id}}')">수정</a>
-          <a onclick="drop('{{comment.id}}')">삭제</a>
-          {% endif %}
-          <input
-            class="modify-input modify-input-{{comment.id}}"
-            type="text"
-            value="{{comment.content}}"
-          />
-          <button
-            class="modify-button modify-button-{{comment.id}}"
-            onclick="modify('{{comment.id}}')"
-          >
-            수정
-          </button>
-          {{comment.createdAt}} {% endfor %}
-        </section>
-        <input
-          class="token"
-          type="text"
-          value="{{token}}"
-          style="display: none"
-        />
-        <!-- Arrow up -->
-        <aside>
-          <a class="arrow-up arrow-up--visible" href="#" title="back to top">
-            <!-- 만약에 따로 svg에서 스크린 리더기에 정보를 줄 수 없다면,
+                            <img src="{{ image }}" alt="Board Image" class="viewpage__content__image" />
+                            {% endif %}
+                            <textarea name="" id="" cols="30" rows="10" readonly>{{content}}</textarea>
+                        </div>
+                        <div class="viewpage__likes">
+                            <a href="#" class="view__buttons_button view__buttons_button__bookmark"
+                                ><i class="fa-solid fa-book-bookmark"></i>&nbsp;&nbsp;책갈피</a
+                            >
+                            <a href="#" class="view__buttons_button view__buttons_button__like"
+                                ><i class="fa-regular fa-thumbs-up"></i>&nbsp;&nbsp;Like!</a
+                            >
+
+                            <a href="#" class="view__buttons_button view__buttons_button__dislike"
+                                ><i class="fa-regular fa-thumbs-down"></i>&nbsp;&nbsp;Dislike</a
+                            >
+                        </div>
+                    </div>
+                </section>
+                <div class="viewbuttons">
+                    <div class="viewbuttons__left">
+                        <a href="/boards/{{category}}/1" class="view__buttons_button"
+                            ><i class="fa-solid fa-clipboard"></i>&nbsp;&nbsp;목록보기</a
+                        >
+                        <a href="/boards/board_id/{{id - 1}}" class="view__buttons_button"
+                            ><i class="fa-regular fa-circle-down"></i>&nbsp;&nbsp;이전 글</a
+                        >
+                    </div>
+                    <p class="viewbuttons__right">
+                        <a href="/boards/board_id/{{id + 1}}" class="view__buttons_button"
+                            ><i class="fa-regular fa-circle-up"></i>&nbsp;&nbsp;다음 글</a
+                        >
+                    </p>
+                </div>
+                <section class="comments"></section>
+                <!-- Arrow up -->
+                <aside>
+                    <a class="arrow-up arrow-up--visible" href="#" title="back to top">
+                        <!-- 만약에 따로 svg에서 스크린 리더기에 정보를 줄 수 없다면,
                  위와 같이 a tag 안에 attribute로 title을 준 후, 그 안에 정보를 써줄 수 있다. -->
-            <i class="fa-solid fa-arrow-up"></i>
-          </a>
-        </aside>
-        <!-- Footer -->
-        <footer class="footer">
-          <div class="footer-info">
-            <span class="footer-item">불빛 주식회사</span>
-            <span class="footer-item">대표이사: 강수빈</span>
-            <span class="footer-item">개인정보관리책임자: 이선균</span>
-            <span class="footer-item"
-              >본사: 경기도 성남시 분당구 판교역로180, 803호</span
-            >
+                        <i class="fa-solid fa-arrow-up"></i>
+                    </a>
+                </aside>
+                <!-- Footer -->
+                <footer class="footer">
+                    <div class="footer-info">
+                        <span class="footer-item">불빛 주식회사</span>
+                        <span class="footer-item">대표이사: 강수빈</span>
+                        <span class="footer-item">개인정보관리책임자: 이선균</span>
+                        <span class="footer-item">본사: 경기도 성남시 분당구 판교역로180, 803호</span>
 
-            <span class="footer-item">연락처: help@boolbit.town</span>
-          </div>
-          <div class="footer-links">
-            <span class="footer-item">사업자 등록번호: 124-88-02603</span>
-            <span class="footer-item"
-              >통신판매업 신고번호: 제 2022-성남분당A-0689호</span
-            >
+                        <span class="footer-item">연락처: help@boolbit.town</span>
+                    </div>
+                    <div class="footer-links">
+                        <span class="footer-item">사업자 등록번호: 124-88-02603</span>
+                        <span class="footer-item">통신판매업 신고번호: 제 2022-성남분당A-0689호</span>
 
-            <a
-              href="/policy/service"
-              target="_blank"
-              rel="noreferrer"
-              class="footer-link"
-              >이용약관</a
-            >
-
+                        <a href="/policy/service" target="_blank" rel="noreferrer" class="footer-link">이용약관</a>
             <a
               href="/policy/privacy"
               target="_blank"
