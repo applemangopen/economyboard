@@ -1,3 +1,14 @@
+function formatDateTime(dateTimeStr) {
+    const date = new Date(dateTimeStr);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+
+    return `${year}.${month}.${day} ${hours}:${minutes}`;
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
   // Nav 토글버튼 클릭 이벤트 처리
   const navToggle = document.getElementById("navToggle");
@@ -66,40 +77,54 @@ document.addEventListener("DOMContentLoaded", async function () {
     }, 3000);
   }
 
-  const deleteButton = document.querySelector(".view__buttons__delete");
-  if (deleteButton) {
-    deleteButton.addEventListener("click", function (event) {
-      event.preventDefault();
-      deletePost();
-    });
-  }
+    // 날짜, 시간 형식 변환
 
-  async function deletePost() {
-    // 현재 페이지의 URL에서 게시물 ID 추출
-    const pathArray = window.location.pathname.split("/");
-    const postId = pathArray[pathArray.indexOf("board_id") + 1];
+    const textarea = document.querySelector("textarea");
+    textarea.style.height = textarea.scrollHeight + "px";
 
-    // 게시물 ID가 존재하는 경우에만 삭제 요청을 수행
-    if (postId) {
-      try {
-        const response = await axios.delete(`/boards/board_id/${postId}`);
-        console.log(response.data);
-
-        // isDeleted 키를 확인하여 처리
-        if (response.data.isDeleted) {
-          alert("글이 성공적으로 삭제됐습니다.");
-          window.location.href = "/";
-        } else {
-          alert("글 삭제를 하는 중, 오류가 발생했습니다");
-        }
-      } catch (error) {
-        console.error("Delete request error:", error);
-        alert("글 삭제를 하는 중, 오류가 발생했습니다");
-      }
-    } else {
-      console.error("Post ID not found in URL");
+    const createdAtElement = document.getElementById("createdAt");
+    if (createdAtElement) {
+        const formattedDate = formatDateTime(createdAtElement.textContent);
+        createdAtElement.textContent = formattedDate;
     }
+
+    const deleteButton = document.querySelector(".view__buttons__delete");
+    if (deleteButton) {
+        deleteButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            deletePost();
+        });
+    }
+
+    async function deletePost() {
+        // 현재 페이지의 URL에서 게시물 ID 추출
+        const pathArray = window.location.pathname.split("/");
+        const postId = pathArray[pathArray.indexOf("board_id") + 1];
+
+        // 게시물 ID가 존재하는 경우에만 삭제 요청을 수행
+        if (postId) {
+            try {
+                const response = await axios.delete(`/boards/board_id/${postId}`);
+                console.log(response.data);
+
+                // isDeleted 키를 확인하여 처리
+                if (response.data.isDeleted) {
+                    alert("글이 성공적으로 삭제됐습니다.");
+                    window.location.href = "/";
+                } else {
+                    alert("글 삭제를 하는 중, 오류가 발생했습니다");
+                }
+            } catch (error) {
+                console.error("Delete request error:", error);
+                alert("글 삭제를 하는 중, 오류가 발생했습니다");
+            }
+        } else {
+            console.error("Post ID not found in URL");
+        }
+    }
+
   }
+
 
   // ===== Like(좋아요) 처리 로직 =====
   const likeButton = document.querySelector(".view__buttons_button__like");
