@@ -225,16 +225,20 @@
           </div>
           {% for comment in comments %} {{comment.user.nickname}} {% if
           userData.id === comment.user.id %}
-          <a onclick="setModify()">수정</a>
-          <a onclick="drop()">삭제</a>
+          <a onclick="setModify('{{comment.id}}')">수정</a>
+          <a onclick="drop('{{comment.id}}')">삭제</a>
           {% endif %}
-          <!-- <input
-            class="modify-input"
+          <input
+            class="modify-input modify-input-{{comment.id}}"
             type="text"
             value="{{comment.content}}"
-          /> -->
-          {{comment.content}}
-          <!-- <button class="modify-button" onclick="modify()">수정</button> -->
+          />
+          <button
+            class="modify-button modify-button-{{comment.id}}"
+            onclick="modify('{{comment.id}}')"
+          >
+            수정
+          </button>
           {{comment.createdAt}} {% endfor %}
         </section>
         <input
@@ -360,9 +364,6 @@
   </body>
   <script>
     const token = document.querySelector(".token").value;
-    const modifyInput = document.querySelector(".modify-input");
-    const modifyButton = document.querySelector(".modify-button");
-    let opacity = true;
 
     async function writeComment() {
       const content = document.querySelector(".content").value;
@@ -386,10 +387,65 @@
       location.href = `/boards/board_id/{{id}}`;
     }
 
-    function setModify() {
-      modifyInput.style = `opacity: ${opacity}`;
-      modifyButton.style = `opacity: ${opacity}`;
-      opacity = !opacity;
+    function setModify(id) {
+      const modifyInput = document.querySelector(`.modify-input-${id}`);
+      const modifyButton = document.querySelector(`.modify-button-${id}`);
+
+      if (!modifyInput.classList.contains("show")) {
+        modifyInput.classList.add("show");
+        modifyButton.classList.add("show");
+      } else {
+        modifyInput.classList.remove("show");
+        modifyButton.classList.remove("show");
+      }
+    }
+
+    async function modify(id) {
+      const modifyInput = document.querySelector(`.modify-input-${id}`);
+
+      const response = await fetch(
+        `http://13.209.19.175:4000/boards/board_id/{{id}}/comment_id/${id}`,
+        {
+          method: "put",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ content: modifyInput.value }),
+        }
+      );
+
+      location.href = `/boards/board_id/{{id}}`;
+    }
+
+    async function drop(id) {
+      const response = await fetch(
+        `http://13.209.19.175:4000/boards/board_id/{{id}}/comment_id/${id}`,
+        {
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      location.href = `/boards/board_id/{{id}}`;
     }
   </script>
+  <style>
+    a {
+      cursor: pointer;
+    }
+    .modify-button {
+      display: none;
+    }
+    .modify-input {
+      outline: none;
+      border: none;
+    }
+    .show {
+      display: inline-block;
+      border: 1px solid #000;
+    }
+  </style>
 </html>
