@@ -213,7 +213,36 @@
             >
           </p>
         </div>
-        <section class="comments"></section>
+        <section class="comments">
+          <div class="comment">
+            <input
+              type="text"
+              class="content"
+              name="content"
+              placeholder="댓글을 입력해주세요"
+            />
+            <button type="submit" onclick="writeComment()">작성하기</button>
+          </div>
+          {% for comment in comments %} {{comment.user.nickname}} {% if
+          userData.id === comment.user.id %}
+          <a onclick="setModify()">수정</a>
+          <a onclick="drop()">삭제</a>
+          {% endif %}
+          <!-- <input
+            class="modify-input"
+            type="text"
+            value="{{comment.content}}"
+          /> -->
+          {{comment.content}}
+          <!-- <button class="modify-button" onclick="modify()">수정</button> -->
+          {{comment.createdAt}} {% endfor %}
+        </section>
+        <input
+          class="token"
+          type="text"
+          value="{{token}}"
+          style="display: none"
+        />
         <!-- Arrow up -->
         <aside>
           <a class="arrow-up arrow-up--visible" href="#" title="back to top">
@@ -329,4 +358,38 @@
       </div>
     </nav>
   </body>
+  <script>
+    const token = document.querySelector(".token").value;
+    const modifyInput = document.querySelector(".modify-input");
+    const modifyButton = document.querySelector(".modify-button");
+    let opacity = true;
+
+    async function writeComment() {
+      const content = document.querySelector(".content").value;
+
+      if (!content) {
+        alert("댓글을 입력해 주세요.");
+      }
+
+      const response = await fetch(
+        `http://13.209.19.175:4000/boards/board_id/{{id}}`,
+        {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ content }),
+        }
+      );
+
+      location.href = `/boards/board_id/{{id}}`;
+    }
+
+    function setModify() {
+      modifyInput.style = `opacity: ${opacity}`;
+      modifyButton.style = `opacity: ${opacity}`;
+      opacity = !opacity;
+    }
+  </script>
 </html>
